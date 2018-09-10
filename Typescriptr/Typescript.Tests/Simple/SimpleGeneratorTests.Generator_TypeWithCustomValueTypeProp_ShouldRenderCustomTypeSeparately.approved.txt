@@ -1,0 +1,8 @@
+declare namespace Api {
+  interface TypeWithCustomValueTypeProp {
+    testStructProp: TestStruct;
+  }
+  interface TestStruct {
+    intProp: number;
+  }
+}

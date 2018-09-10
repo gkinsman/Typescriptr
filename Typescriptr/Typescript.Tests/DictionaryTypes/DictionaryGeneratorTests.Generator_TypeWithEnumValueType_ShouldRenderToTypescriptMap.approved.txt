@@ -1,0 +1,12 @@
+declare namespace Api {
+  interface TypeWithDictionaryAndEnumPropAsValue {
+    enumDictionary: { [key: string]: 'FirstValue' | 'SecondValue' | 'ThirdValue' };
+  }
+}
+
+---
+enum TestEnum {
+  FirstValue = 'FirstValue',
+  SecondValue = 'SecondValue',
+  ThirdValue = 'ThirdValue',
+}

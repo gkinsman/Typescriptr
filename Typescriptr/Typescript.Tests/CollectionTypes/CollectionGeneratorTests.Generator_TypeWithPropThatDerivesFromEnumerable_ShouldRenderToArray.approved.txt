@@ -1,0 +1,5 @@
+declare namespace Api {
+  interface TypeWithPropThatInheritsFromIEnumerable {
+    derivedFromList: number[];
+  }
+}

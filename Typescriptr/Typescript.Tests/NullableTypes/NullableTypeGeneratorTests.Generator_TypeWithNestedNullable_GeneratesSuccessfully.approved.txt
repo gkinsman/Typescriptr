@@ -1,0 +1,9 @@
+declare namespace Api {
+  interface TypeWithNestedNullable {
+    nestedThing: NestedType;
+  }
+  interface NestedType {
+    nullableInt?: number;
+    nullableDateTime: string;
+  }
+}

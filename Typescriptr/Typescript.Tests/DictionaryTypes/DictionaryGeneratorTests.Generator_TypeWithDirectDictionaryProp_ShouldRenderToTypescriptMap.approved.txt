@@ -1,0 +1,5 @@
+declare namespace Api {
+  interface TypeWithDictionaryProp {
+    dictProp: { [key: string]: number };
+  }
+}

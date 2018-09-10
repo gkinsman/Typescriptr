@@ -1,0 +1,12 @@
+declare namespace Api {
+  interface TypeWithNullableEnum {
+    nullableEnumProp?: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+}
+
+---
+enum EnumType {
+  FirstEnum = 'FirstEnum',
+  SecondEnum = 'SecondEnum',
+  ThirdEnum = 'ThirdEnum',
+}

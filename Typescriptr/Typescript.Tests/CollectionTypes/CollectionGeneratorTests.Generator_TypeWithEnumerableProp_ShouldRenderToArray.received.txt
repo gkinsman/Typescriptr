@@ -1,0 +1,6 @@
+declare namespace Api {
+  interface TypeWithEnumerableProp {
+    enumerableProp: number[];
+  }
+
+}

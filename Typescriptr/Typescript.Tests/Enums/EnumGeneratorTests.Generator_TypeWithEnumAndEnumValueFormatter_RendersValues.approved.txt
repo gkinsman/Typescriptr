@@ -1,0 +1,12 @@
+declare namespace Api {
+  interface TypeWithValuedEnum {
+    enumWithValueProp: 'First' | 'Second' | 'Third';
+  }
+}
+
+---
+enum EnumType {
+  First = 'First',
+  Second = 'Second',
+  Third = 'Third',
+}

@@ -1,0 +1,11 @@
+declare namespace Api {
+  interface TypeWithNestedType {
+    simpleType: SimpleTypesOnly;
+  }
+  interface SimpleTypesOnly {
+    intType: number;
+    longType: number;
+    stringType: string;
+    decimalType: number;
+  }
+}
