@@ -13,5 +13,4 @@ Specifically, it does these things:
 
 
 ## TODO
-- Docs
-- Build/Nuget
+- Docs (The tests are a good place to start for now)
