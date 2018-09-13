@@ -1,0 +1,39 @@
+# perform linux build followed by the windows build in sequence
+# 'fast_finish: true' will prevent the windows build from running if the linux build fails
+# the windows build will trigger the release on success
+
+image:
+- Ubuntu
+- Visual Studio 2017
+
+environment:
+  # semantic-version requires node > 8.3
+  nodejs_version: 10.3.0
+  GITHUB_TOKEN:
+    secure: LwoqNoJYMSO01xxrAUjbaC4G+4JwRghj9dHsCQd3Y/xsSWA/i0tnr+LG73YKj4Gm
+  NUGET_TOKEN:
+    secure: zilHXV7X2DgAETV+q1eE9FUM8RwOoQOdFP/EFHm2KO+tByu5aLZZ1CCREfjYUooo
+
+install:
+- cmd: powershell Install-Product node $env:nodejs_version
+- sh: nvm install $nodejs_version
+
+build_script:
+- ps: .\build.ps1
+
+# Disable appveyor test discovery
+test: off
+
+# Disable builds on new tags
+skip_tags: true
+
+cache:
+# Cake packages cache (build.ps1 or build.cake)
+- tools -> build.*
+# NuGet packages cache (windows and linux)
+- '%LocalAppData%\NuGet\v3-cache -> **\*.csproj'
+- '$HOME/.local/share/NuGet/v3-cache -> **/*.csproj'
+
+matrix:
+  # Fail as soon as any job fails
+  fast_finish: true
