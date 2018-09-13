@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Text;
 using Assent;
 using Typescriptr;
@@ -10,11 +12,9 @@ namespace Typescript.Tests
         [Fact]
         public void IndentEachLine_NoEmptyLines_ShouldIndentAll()
         {
-            var stringToIndent = @"
-A
-B
-C
-D";
+
+            var stringToIndent = string.Join(Environment.NewLine, "ABCD".ToCharArray());
+            
             var indented = stringToIndent.IndentEachLine("  ");
 
             this.Assent(indented);
@@ -23,13 +23,7 @@ D";
         [Fact]
         public void IndentEachLine_EmptyLines_ShouldntIndentEmptyLines()
         {
-            var stringToIndent = @"
-A
-
-B
-C
-
-D";
+            var stringToIndent = "AB" + Environment.NewLine + Environment.NewLine + "CD";
 
             var indented = stringToIndent.IndentEachLine("  ");
 
