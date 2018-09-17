@@ -28,7 +28,7 @@ var generator = TypeScriptGenerator.CreateDefault();
 ```csharp
 var typesToGenerate = 
   typeof(MyApiClient).Assembly.ExportedTypes
-    .Where(type => typeof(ApiDto).IsAssignableFrom(type));
+    .Where(type => typeof(ApiData).IsAssignableFrom(type));
 
 var generationResult = generator.Generate(typesToGenerate);
 ```
