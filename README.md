@@ -5,11 +5,11 @@ A C# to TypeScript converter that focuses on ease of use and client side awesome
 There are a few options out there for generating TypeScript currently, and they might work for you! This library focuses on 'fitting in' with TypeScript to make the developer experience of using server types in TS projects _awesome_. 
 
 Specifically, it does these things:
-- It handles types as you'd generally expect it to
-- Enum values are rendered as strings, instead of numbers.
-  - While enum properties are string unions, enums types are also provided for outputting to a `.ts`, leaving the interfaces in your `.d.ts` file alone.
-- Enum properties are rendered as string unions `propName: 'EnumVal1' | 'EnumVal2' | 'EnumVal3';`. Again, overridable.
-- It is small. The generator is basically one class that only handles primitives, maps (IDictionary), collections (IEnumerable), and custom types.
+- It renders IDictionary<TKey,TValue> to `{ [key: TKey]: TValue }` out of the box
+- It renders IEnumerable<T> to `T[]` out of the box 
+- Enum values are rendered as strings instead of numbers, and are generated separately from regular types.
+- Enum properties are rendered as string unions `propName: 'EnumVal1' | 'EnumVal2' | 'EnumVal3';`.
+- It is small and flexible: you can easily override the defaults below.
 
 ## Scope
 This project is specifically designed to render TypeScript from C# for the purpose of providing type safety over DTOs. It is explicitly not designed to be a general C#-to-TypeScript converter. Decisions on feature additions to this library will take that guiding purpose into account.
