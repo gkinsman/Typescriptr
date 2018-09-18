@@ -1,5 +1,0 @@
-declare namespace Api {
-  interface TypeWithArrayProp {
-    arrayProp: string[];
-  }
-}

@@ -1,7 +1,0 @@
-declare namespace Api {
-  interface TypeWithNullable {
-    nullableInt?: number;
-    nullableGuid?: string;
-  }
-
-}
