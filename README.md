@@ -30,7 +30,7 @@ var typesToGenerate =
   typeof(MyApiClient).Assembly.ExportedTypes
     .Where(type => typeof(ApiData).IsAssignableFrom(type));
 
-var generationResult = generator.Generate(typesToGenerate);
+var result = generator.Generate(typesToGenerate);
 ```
 
 3) Do whatever you like with the output Types and Enums.
