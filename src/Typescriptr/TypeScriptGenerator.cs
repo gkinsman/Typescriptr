@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Typescriptr.Exceptions;
@@ -25,7 +26,9 @@ namespace Typescriptr
         private FormatEnumProperty _enumPropertyFormatter;
         private FormatDictionaryProperty _dictionaryPropertyFormatter;
         private FormatCollectionProperty _collectionPropertyFormatter;
-
+        
+        private QuoteStyle _quoteStyle;
+        private MemberType _memberTypes;
         private bool _useCamelCasePropertyNames;
 
         private readonly Dictionary<Type, string> _propTypeMap = new Dictionary<Type, string>()
@@ -61,11 +64,18 @@ namespace Typescriptr
             .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter,
                 EnumFormatter.UnionStringEnumPropertyTypeFormatter)
             .WithQuoteStyle(QuoteStyle.Single)
+            .WithTypeMembers(MemberType.PropertiesOnly)
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
             .WithNamespace("Api")
             .WithCamelCasedPropertyNames();
 
+        public TypeScriptGenerator WithTypeMembers(MemberType memberTypes)
+        {
+            _memberTypes = memberTypes;
+            return this;
+        }
+        
         public TypeScriptGenerator WithCamelCasedPropertyNames(bool useCamelCasedPropertyNames = true)
         {
             _useCamelCasePropertyNames = useCamelCasedPropertyNames;
@@ -118,7 +128,7 @@ namespace Typescriptr
         private readonly HashSet<string> _enumNames = new HashSet<string>();
         private readonly Stack<Type> _typeStack = new Stack<Type>();
         private string _namespace;
-        private QuoteStyle _quoteStyle;
+        
 
         public GenerationResult Generate(IEnumerable<Type> types)
         {
@@ -159,18 +169,27 @@ namespace Typescriptr
 
         private void RenderType(StringBuilder builder, Type type)
         {
-            var properties = type.GetProperties();
+            var memberTypesToInclude = _memberTypes == MemberType.PropertiesOnly
+                ? MemberTypes.Property
+                : MemberTypes.Property | MemberTypes.Field;
+
+            var members = type.GetMembers().Where(m => memberTypesToInclude.HasFlag(m.MemberType));
             builder.AppendLine($"interface {type.Name} {{");
 
-            foreach (var prop in properties)
+            foreach (var memberInfo in members)
             {
-                var propType = prop.PropertyType;
-                var propName = prop.Name;
-
+                Type memberType = null;
+                if (memberInfo is PropertyInfo p)
+                    memberType = p.PropertyType;
+                else if (memberInfo is FieldInfo f)
+                    memberType = f.FieldType;
+                if (memberType == null) throw new InvalidOperationException();
+                
+                var memberName = memberInfo.Name;
                 if (_useCamelCasePropertyNames)
-                    propName = propName.ToCamelCase();
+                    memberName = memberName.ToCamelCase();
 
-                RenderProperty(builder, propType, propName);
+                RenderProperty(builder, memberType, memberName);
             }
 
             builder.AppendLine("}");

@@ -78,5 +78,42 @@ namespace Typescript.Tests.Simple
 
             this.Assent(generated.Types);
         }
+
+
+        class TestTypeWithFields
+        {
+#pragma warning disable 414
+            public string StringField = "123";
+            public int IntField = 4;
+#pragma warning restore 414
+        }
+
+        [Fact]
+        public void Generator_TypeWithFields_ShouldRenderFields()
+        {
+            var generator = TypeScriptGenerator.CreateDefault()
+                .WithTypeMembers(MemberType.PropertiesAndFields);
+            var generated = generator.Generate(new[] {typeof(TestTypeWithFields)});
+
+            this.Assent(generated.Types);
+        }
+        
+        class TestTypeWithFieldsAndProps
+        {
+#pragma warning disable 414
+            public string StringField = "123";
+            public int IntField = 4;
+#pragma warning restore 414
+            public string StringProp { get; set; }
+        }
+
+        [Fact]
+        public void Generator_TypeWithFieldsAndPropsButSetToPropsOnly_ShouldOnlyRenderProps()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TestTypeWithFieldsAndProps)});
+
+            this.Assent(generated.Types);
+        }
     }
 }
