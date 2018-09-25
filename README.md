@@ -157,7 +157,7 @@ declare namespace Api {
 
 ## Nullable Value Types
 
-Nullable value types are rendered to optional properties in TypeScript:
+Nullable value types are rendered to properties with a null union in TypeScript:
 
 ```csharp
 class TypeWithNullable
@@ -170,8 +170,8 @@ class TypeWithNullable
 ```TypeScript
 declare namespace Api {
   interface TypeWithNullable {
-    nullableInt?: number;
-    nullableGuid?: string;
+    nullableInt: number | null;
+    nullableGuid: string | null;
   }
 }
 ```

@@ -10,8 +10,11 @@ using Typescriptr.Formatters;
 namespace Typescriptr
 {
     public delegate string FormatEnum(Type t, QuoteStyle quoteStyle);
+
     public delegate string FormatEnumProperty(Type t, QuoteStyle quoteStyle);
+
     public delegate string FormatDictionaryProperty(Type t, Func<Type, string> typeNameRenderer);
+
     public delegate string FormatCollectionProperty(Type t, Func<Type, string> typeNameRenderer);
 
     public class TypeScriptGenerator
@@ -55,7 +58,8 @@ namespace Typescriptr
             .WithPropertyTypeFormatter<TimeSpan>(t => "string")
             .WithPropertyTypeFormatter<Guid>(t => "string")
             .WithPropertyTypeFormatter<DateTimeOffset>(t => "string")
-            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter, EnumFormatter.UnionStringEnumPropertyTypeFormatter)
+            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter,
+                EnumFormatter.UnionStringEnumPropertyTypeFormatter)
             .WithQuoteStyle(QuoteStyle.Single)
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
@@ -73,13 +77,13 @@ namespace Typescriptr
             _quoteStyle = style;
             return this;
         }
-        
+
         public TypeScriptGenerator WithNamespace(string @namespace)
         {
             _namespace = @namespace;
             return this;
         }
-        
+
         public TypeScriptGenerator WithDictionaryPropertyFormatter(FormatDictionaryProperty formatter)
         {
             _dictionaryPropertyFormatter = formatter;
@@ -142,7 +146,7 @@ namespace Typescriptr
             {
                 typeBuilder.AppendLine();
             }
-            
+
             return new GenerationResult(typeBuilder.ToString(), enumBuilder.ToString());
         }
 
@@ -165,8 +169,6 @@ namespace Typescriptr
 
                 if (_useCamelCasePropertyNames)
                     propName = propName.ToCamelCase();
-                if (Nullable.GetUnderlyingType(propType) != null)
-                    propName = $"{propName}?";
 
                 RenderProperty(builder, propType, propName);
             }
@@ -182,25 +184,30 @@ namespace Typescriptr
 
         private string TypeNameRenderer(Type type)
         {
+            Func<string, string> decorate = str => str;
+
             if (Nullable.GetUnderlyingType(type) != null)
+            {
                 type = Nullable.GetUnderlyingType(type);
+                decorate = str => str + " | null";
+            }
 
             if (_propTypeMap.ContainsKey(type))
-                return _propTypeMap[type];
-            
+                return decorate(_propTypeMap[type]);
+
             if (typeof(IDictionary).IsAssignableFrom(type))
-                return _dictionaryPropertyFormatter(type, TypeNameRenderer);
-    
+                return decorate(_dictionaryPropertyFormatter(type, TypeNameRenderer));
+
             if (typeof(IEnumerable).IsAssignableFrom(type))
-                return _collectionPropertyFormatter(type, TypeNameRenderer);
+                return decorate(_collectionPropertyFormatter(type, TypeNameRenderer));
 
             var typeName = type.Name;
             if (typeof(Enum).IsAssignableFrom(type))
                 typeName = _enumPropertyFormatter(type, _quoteStyle);
 
             if (!_typesGenerated.Contains(type)) _typeStack.Push(type);
-            
-            return typeName;
+
+            return decorate(typeName);
         }
 
         private void RenderProperty(StringBuilder builder, Type propType, string propName)

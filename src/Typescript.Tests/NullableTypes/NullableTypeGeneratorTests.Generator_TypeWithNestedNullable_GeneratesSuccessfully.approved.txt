@@ -3,7 +3,7 @@ declare namespace Api {
     nestedThing: NestedType;
   }
   interface NestedType {
-    nullableInt?: number;
+    nullableInt: number | null;
     nullableDateTime: string;
   }
 }
