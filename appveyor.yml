@@ -13,6 +13,7 @@ environment:
     secure: LwoqNoJYMSO01xxrAUjbaC4G+4JwRghj9dHsCQd3Y/xsSWA/i0tnr+LG73YKj4Gm
   NUGET_TOKEN:
     secure: zilHXV7X2DgAETV+q1eE9FUM8RwOoQOdFP/EFHm2KO+tByu5aLZZ1CCREfjYUooo
+  AssentNonInteractive: true
 
 install:
 - cmd: powershell Install-Product node $env:nodejs_version
