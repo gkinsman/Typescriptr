@@ -40,7 +40,7 @@ var typesToGenerate =
     .Where(type => typeof(ApiData).IsAssignableFrom(type));
 
 var result = generator.Generate(typesToGenerate);
-```
+``` 
 
 3) Do whatever you like with the output Types and Enums.
 For example, write Types to a type definition file, and Enums to a regular TypeScript file:
