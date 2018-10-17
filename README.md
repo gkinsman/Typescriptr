@@ -1,7 +1,16 @@
 # Typescriptr
-A C# to TypeScript converter that focuses on ease of use and client side awesomeness.
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/gkinsman/Typescriptr?svg=true)](https://ci.appveyor.com/project/gkinsman/Typescriptr)
+[![tests](https://img.shields.io/appveyor/tests/gkinsman/Typescriptr.svg)](https://ci.appveyor.com/project/gkinsman/Typescriptr)
+[![nuget](https://img.shields.io/nuget/v/Typescriptr.svg)](https://www.nuget.org/packages/Typescriptr/)
+[![github license](https://img.shields.io/github/license/gkinsman/Typescriptr.svg)](https://github.com/gkinsman/Typescriptr/blob/master/LICENSE)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-## Yet another C# to TypeScript converter?!
+
+### A C# to TypeScript converter that focuses on ease of use and client side awesomeness.
+
+[`Install-Package Typescriptr`](https://www.nuget.org/packages/Typescriptr/)
+
+### Yet another C# to TypeScript converter?!
 There are a few options out there for generating TypeScript currently, and they might work for you! This library focuses on 'fitting in' with TypeScript to make the developer experience of using server types in TS projects _awesome_. 
 
 Specifically, it does these things:
@@ -51,15 +60,12 @@ using(var tw = new StreamWriter(fs)) {
 
 ## Defaults
 
-By default, Typescriptr will map the following types when created with the `CreateDefault` method:
+By default, Typescriptr will map most common BCL types, and the following complex types when created with the `CreateDefault` method:
 ```csharp
 public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
-            .WithPropertyTypeFormatter<DateTime>(t => "string")
-            .WithPropertyTypeFormatter<DayOfWeek>(t => "string")
-            .WithPropertyTypeFormatter<TimeSpan>(t => "string")
-            .WithPropertyTypeFormatter<Guid>(t => "string")
             .WithPropertyTypeFormatter<DateTimeOffset>(t => "string")
-            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter, EnumFormatter.UnionStringEnumPropertyTypeFormatter)
+            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter, 
+              EnumFormatter.UnionStringEnumPropertyTypeFormatter)
             .WithQuoteStyle(QuoteStyle.Single)
             .WithTypeMembers(MemberType.PropertiesOnly)
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
@@ -185,4 +191,4 @@ Inheritance isn't directly supported by Typescriptr, in that types passed into t
 
 ### Generics
 
-Top level types with type parameters are not supported at all. Properties with generic type parameters may be mapped with custom property type formatters, but a non-generic base type is required to match the type on. This scenario is fairly obscure and untested, as generics are rarely a good idea for DTO's.
+Top level types with type parameters are not supported at all. Properties with generic type parameters may be mapped with custom property type formatters, but a non-generic base type is required to match the type on. This scenario is fairly obscure and untested, as generics are unusual for DTO's.

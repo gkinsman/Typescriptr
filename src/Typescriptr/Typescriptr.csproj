@@ -4,4 +4,23 @@
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <Authors>George Kinsman</Authors>
+        <Description>
+            A C# to TypeScript converter that focuses on ease of use and client side awesomeness.
+        </Description>
+        <PackageProjectUrl>https://github.com/gkinsman/Typescriptr</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/gkinsman/Typescriptr</RepositoryUrl>
+        <PackageLicenseUrl>https://github.com/gkinsman/Typescriptr/blob/master/LICENSE</PackageLicenseUrl>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+
 </Project>

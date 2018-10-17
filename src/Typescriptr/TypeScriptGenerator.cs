@@ -44,11 +44,13 @@ namespace Typescriptr
             {typeof(decimal), "number"},
             {typeof(sbyte), "number"},
             {typeof(uint), "number"},
-
             {typeof(char), "string"},
             {typeof(string), "string"},
-
             {typeof(bool), "boolean"},
+            {typeof(DateTime), "string"},
+            {typeof(DayOfWeek), "string"},
+            {typeof(TimeSpan), "string"},
+            {typeof(Guid), "string"},
         };
 
         private TypeScriptGenerator()
@@ -56,10 +58,6 @@ namespace Typescriptr
         }
 
         public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
-            .WithPropertyTypeFormatter<DateTime>(t => "string")
-            .WithPropertyTypeFormatter<DayOfWeek>(t => "string")
-            .WithPropertyTypeFormatter<TimeSpan>(t => "string")
-            .WithPropertyTypeFormatter<Guid>(t => "string")
             .WithPropertyTypeFormatter<DateTimeOffset>(t => "string")
             .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter,
                 EnumFormatter.UnionStringEnumPropertyTypeFormatter)
