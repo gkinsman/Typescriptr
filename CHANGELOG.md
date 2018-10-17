@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/gkinsman/Typescriptr/compare/v1.1.0...v1.1.1) (2018-10-17)
+
+
+### Bug Fixes
+
+* **me:** learn to use semantic merge. ([29feac0](https://github.com/gkinsman/Typescriptr/commit/29feac0))
+
 # [1.1.0](https://github.com/gkinsman/Typescriptr/compare/v1.0.0...v1.1.0) (2018-09-25)
 
 
