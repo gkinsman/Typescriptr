@@ -20,10 +20,6 @@ Specifically, it does these things:
 - Enum properties are rendered as string unions `propName: 'EnumVal1' | 'EnumVal2' | 'EnumVal3';`.
 - It is small and flexible: you can easily override the defaults below.
 
-## Scope
-This project is specifically designed to render TypeScript from C# for the purpose of providing type safety over DTOs. It is explicitly not designed to be a general C#-to-TypeScript converter. Decisions on feature additions to this library will take that guiding purpose into account.
-
-
 ## Getting Started
 
 [`Install-Package Typescriptr`](https://www.nuget.org/packages/Typescriptr/)
