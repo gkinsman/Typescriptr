@@ -1,0 +1,7 @@
+declare namespace Api {
+  interface TypeWithBaseClass extends BaseClass {
+  }
+  interface BaseClass {
+    property: string;
+  }
+}

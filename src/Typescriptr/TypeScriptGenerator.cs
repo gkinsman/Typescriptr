@@ -172,7 +172,22 @@ namespace Typescriptr
                 : MemberTypes.Property | MemberTypes.Field;
 
             var members = type.GetMembers().Where(m => memberTypesToInclude.HasFlag(m.MemberType));
-            builder.AppendLine($"interface {type.Name} {{");
+
+            bool ShouldExport(Type t)
+            {
+                return t != typeof(Object)
+                    && t != typeof(ValueType)
+                    && t != null;
+            }
+            var baseType = type.BaseType;
+            var hasBaseType = ShouldExport(baseType);
+
+            builder.Append($"interface {type.Name}");
+            if (hasBaseType) {
+                builder.Append($" extends {baseType.Name}");
+            }
+
+            builder.AppendLine(" {");
 
             foreach (var memberInfo in members)
             {
@@ -187,14 +202,15 @@ namespace Typescriptr
                 if (_useCamelCasePropertyNames)
                     memberName = memberName.ToCamelCase();
 
-                RenderProperty(builder, memberType, memberName);
+                if (memberInfo.DeclaringType == type) {
+                    RenderProperty(builder, memberType, memberName);
+                }
             }
 
             builder.AppendLine("}");
             _typesGenerated.Add(type);
 
-            var baseType = type.BaseType;
-            if (baseType != typeof(Object) && baseType != typeof(ValueType) && baseType != null)
+            if (hasBaseType)
                 if (!_typesGenerated.Contains(baseType))
                     _typeStack.Push(baseType);
         }
