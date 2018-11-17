@@ -211,7 +211,7 @@ namespace Typescriptr
             builder.AppendLine("}");
             _typesGenerated.Add(type);
 
-            if (hasBaseType)
+            if (hasBaseType && !baseIsGeneric)
                 if (!_typesGenerated.Contains(baseType))
                     _typeStack.Push(baseType);
         }
