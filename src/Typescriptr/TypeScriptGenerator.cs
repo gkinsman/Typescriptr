@@ -181,11 +181,12 @@ namespace Typescriptr
             }
             var baseType = type.BaseType;
             var hasBaseType = ShouldExport(baseType);
-            var baseIsGeneric = baseType.IsGenericType;
 
-            builder.Append($"interface {type.Name}");
-            if (hasBaseType && !baseIsGeneric) {
-                builder.Append($" extends {baseType.Name}");
+            builder.Append($"interface ");
+            RenderTypeName(builder, type);
+            if (hasBaseType) {
+                builder.Append($" extends ");
+                RenderTypeName(builder, baseType);
             }
 
             builder.AppendLine(" {");
@@ -203,7 +204,7 @@ namespace Typescriptr
                 if (_useCamelCasePropertyNames)
                     memberName = memberName.ToCamelCase();
 
-                if (baseIsGeneric || memberInfo.DeclaringType == type) {
+                if (memberInfo.DeclaringType == type) {
                     RenderProperty(builder, memberType, memberName);
                 }
             }
@@ -211,9 +212,31 @@ namespace Typescriptr
             builder.AppendLine("}");
             _typesGenerated.Add(type);
 
-            if (hasBaseType && !baseIsGeneric)
-                if (!_typesGenerated.Contains(baseType))
-                    _typeStack.Push(baseType);
+            if (hasBaseType) {
+                var addedType = baseType.IsGenericType ? baseType.GetGenericTypeDefinition() : baseType;
+                if (!_typesGenerated.Contains(addedType))
+                    _typeStack.Push(addedType);
+            }
+        }
+
+        private void RenderTypeName(StringBuilder builder, Type type)
+        {
+            var friendlyName = type.Name;
+            if (type.IsGenericType) {
+                var backtickIndex = friendlyName.IndexOf('`');
+                if (backtickIndex > 0) {
+                    builder.Append(friendlyName.Remove(backtickIndex));
+                }
+                builder.Append("<");
+                var typeParameters = type.GetGenericArguments();
+                for (var i = 0; i < typeParameters.Length; ++i) {
+                    if (i > 0) { builder.Append(", "); }
+                    RenderTypeName(builder, typeParameters[i]);
+                }
+                builder.Append(">");
+            } else {
+                builder.Append(friendlyName);
+            }
         }
 
         private string TypeNameRenderer(Type type)

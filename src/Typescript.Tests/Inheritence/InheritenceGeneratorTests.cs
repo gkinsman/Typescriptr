@@ -27,23 +27,5 @@ namespace Typescript.Tests.Inheritence
 
             this.Assent(generated.Types);
         }
-
-
-        class TypeWithGenericParent : GenericParent<TypeWithGenericParent>
-        {
-
-        }
-        class GenericParent<T>
-        {
-        }
-
-        [Fact]
-        public void Generator_TypeWithGenericParent_ShouldRenderValidTypescript()
-        {
-            var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] { typeof(TypeWithGenericParent) });
-
-            this.Assent(generated.Types);
-        }
     }
 }
