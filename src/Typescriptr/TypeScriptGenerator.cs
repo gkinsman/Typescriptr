@@ -181,9 +181,10 @@ namespace Typescriptr
             }
             var baseType = type.BaseType;
             var hasBaseType = ShouldExport(baseType);
+            var baseIsGeneric = baseType.IsGenericType;
 
             builder.Append($"interface {type.Name}");
-            if (hasBaseType) {
+            if (hasBaseType && !baseIsGeneric) {
                 builder.Append($" extends {baseType.Name}");
             }
 
@@ -202,7 +203,7 @@ namespace Typescriptr
                 if (_useCamelCasePropertyNames)
                     memberName = memberName.ToCamelCase();
 
-                if (memberInfo.DeclaringType == type) {
+                if (baseIsGeneric || memberInfo.DeclaringType == type) {
                     RenderProperty(builder, memberType, memberName);
                 }
             }
