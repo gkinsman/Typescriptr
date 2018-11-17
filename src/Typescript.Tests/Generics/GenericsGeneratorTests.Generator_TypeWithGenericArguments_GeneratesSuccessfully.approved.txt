@@ -1,0 +1,6 @@
+declare namespace Api {
+  interface TypeWithGenericArguments extends BaseType<Alpha, Beta> {
+  }
+  interface BaseType<T1, T2> {
+  }
+}

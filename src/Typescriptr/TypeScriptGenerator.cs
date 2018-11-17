@@ -172,7 +172,24 @@ namespace Typescriptr
                 : MemberTypes.Property | MemberTypes.Field;
 
             var members = type.GetMembers().Where(m => memberTypesToInclude.HasFlag(m.MemberType));
-            builder.AppendLine($"interface {type.Name} {{");
+
+            bool ShouldExport(Type t)
+            {
+                return t != typeof(Object)
+                    && t != typeof(ValueType)
+                    && t != null;
+            }
+            var baseType = type.BaseType;
+            var hasBaseType = ShouldExport(baseType);
+
+            builder.Append($"interface ");
+            RenderTypeName(builder, type);
+            if (hasBaseType) {
+                builder.Append($" extends ");
+                RenderTypeName(builder, baseType);
+            }
+
+            builder.AppendLine(" {");
 
             foreach (var memberInfo in members)
             {
@@ -187,16 +204,39 @@ namespace Typescriptr
                 if (_useCamelCasePropertyNames)
                     memberName = memberName.ToCamelCase();
 
-                RenderProperty(builder, memberType, memberName);
+                if (memberInfo.DeclaringType == type) {
+                    RenderProperty(builder, memberType, memberName);
+                }
             }
 
             builder.AppendLine("}");
             _typesGenerated.Add(type);
 
-            var baseType = type.BaseType;
-            if (baseType != typeof(Object) && baseType != typeof(ValueType) && baseType != null)
-                if (!_typesGenerated.Contains(baseType))
-                    _typeStack.Push(baseType);
+            if (hasBaseType) {
+                var addedType = baseType.IsGenericType ? baseType.GetGenericTypeDefinition() : baseType;
+                if (!_typesGenerated.Contains(addedType))
+                    _typeStack.Push(addedType);
+            }
+        }
+
+        private void RenderTypeName(StringBuilder builder, Type type)
+        {
+            var friendlyName = type.Name;
+            if (type.IsGenericType) {
+                var backtickIndex = friendlyName.IndexOf('`');
+                if (backtickIndex > 0) {
+                    builder.Append(friendlyName.Remove(backtickIndex));
+                }
+                builder.Append("<");
+                var typeParameters = type.GetGenericArguments();
+                for (var i = 0; i < typeParameters.Length; ++i) {
+                    if (i > 0) { builder.Append(", "); }
+                    RenderTypeName(builder, typeParameters[i]);
+                }
+                builder.Append(">");
+            } else {
+                builder.Append(friendlyName);
+            }
         }
 
         private string TypeNameRenderer(Type type)
