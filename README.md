@@ -179,12 +179,41 @@ declare namespace Api {
 }
 ```
 
-## Limitations
+## Inheritance
 
-### Inheritance
+Types that inherit from other types will be rendered with TypeScript `extends`:
 
-Inheritance isn't directly supported by Typescriptr, in that types passed into the generator that have base clases will not, in the output, also derive from that base class. Instead, base types that aren't `object` or `ValueType` will be rendered with all of their respective publicly available properties. The resulting effect is the same as with inheritance, but with slightly larger code output, and simpler generator code.
+```csharp
+class BaseClass
+{
+    public string Property { get; set; }
+}
 
-### Generics
+class TypeWithBaseClass : BaseClass
+{           
+}
+```
 
-Top level types with type parameters are not supported at all. Properties with generic type parameters may be mapped with custom property type formatters, but a non-generic base type is required to match the type on. This scenario is fairly obscure and untested, as generics are unusual for DTO's.
+```TypeScript
+interface TypeWithBaseClass extends BaseClass {
+}
+interface BaseClass {
+  property: string;
+}
+```
+
+## Generics
+
+Types with both open and closed generic types will be rendered to TypeScript generics:
+
+```csharp
+class Pie<Apple> { }
+class Apple { }
+```
+
+```TypeScript
+interface Pie<Apple> {
+}
+interface Apple {
+}
+```
