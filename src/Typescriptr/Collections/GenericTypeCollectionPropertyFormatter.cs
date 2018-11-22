@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Typescriptr.Formatters
+namespace Typescriptr.Collections
 {
-    public class CollectionPropertyFormatter
+    public class GenericTypeCollectionPropertyFormatter : ICollectionPropertyFormatter
     {
-        public static string Format(Type type, Func<Type, string> typeNameRenderer)
-        {
+        public string Format(Type type, Func<Type, string> typeNameRenderer) {
             var typeArgument =
                 type.GetElementType() ??
                 type.GenericTypeArguments.FirstOrDefault() ??

@@ -5,33 +5,26 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using Typescriptr.Collections;
+using Typescriptr.Dictionaries;
+using Typescriptr.Enums;
 using Typescriptr.Exceptions;
-using Typescriptr.Formatters;
 
 namespace Typescriptr
 {
-    public delegate string FormatEnum(Type t, QuoteStyle quoteStyle);
-
-    public delegate string FormatEnumProperty(Type t, QuoteStyle quoteStyle);
-
-    public delegate string FormatDictionaryProperty(Type t, Func<Type, string> typeNameRenderer);
-
-    public delegate string FormatCollectionProperty(Type t, Func<Type, string> typeNameRenderer);
-
     public class TypeScriptGenerator
     {
         public static readonly string TabString = "  ";
 
-        private FormatEnum _enumFormatter;
-        private FormatEnumProperty _enumPropertyFormatter;
-        private FormatDictionaryProperty _dictionaryPropertyFormatter;
-        private FormatCollectionProperty _collectionPropertyFormatter;
-        
-        private QuoteStyle _quoteStyle;
-        private MemberType _memberTypes;
-        private bool _useCamelCasePropertyNames;
+        IEnumFormatter _enumFormatter;
+        IDictionaryPropertyFormatter _dictionaryPropertyFormatter;
+        ICollectionPropertyFormatter _collectionPropertyFormatter;
 
-        private readonly Dictionary<Type, string> _propTypeMap = new Dictionary<Type, string>()
+        QuoteStyle _quoteStyle;
+        MemberType _memberTypes;
+        bool _useCamelCasePropertyNames;
+
+        readonly Dictionary<Type, string> _propTypeMap = new Dictionary<Type, string>()
         {
             {typeof(int), "number"},
             {typeof(long), "number"},
@@ -53,18 +46,17 @@ namespace Typescriptr
             {typeof(Guid), "string"},
         };
 
-        private TypeScriptGenerator()
+        TypeScriptGenerator()
         {
         }
 
         public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
             .WithPropertyTypeFormatter<DateTimeOffset>(t => "string")
-            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter,
-                EnumFormatter.UnionStringEnumPropertyTypeFormatter)
+            .WithEnumFormatter(new KeyOfObjectEnumFormatter())
             .WithQuoteStyle(QuoteStyle.Single)
             .WithTypeMembers(MemberType.PropertiesOnly)
-            .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
-            .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
+            .WithDictionaryPropertyFormatter(new KeyValueDictionaryPropertyFormatter())
+            .WithCollectionPropertyFormatter(new GenericTypeCollectionPropertyFormatter())
             .WithNamespace("Api")
             .WithCamelCasedPropertyNames();
 
@@ -92,22 +84,21 @@ namespace Typescriptr
             return this;
         }
 
-        public TypeScriptGenerator WithDictionaryPropertyFormatter(FormatDictionaryProperty formatter)
+        public TypeScriptGenerator WithDictionaryPropertyFormatter(IDictionaryPropertyFormatter formatter)
         {
             _dictionaryPropertyFormatter = formatter;
             return this;
         }
 
-        public TypeScriptGenerator WithCollectionPropertyFormatter(FormatCollectionProperty formatter)
+        public TypeScriptGenerator WithCollectionPropertyFormatter(ICollectionPropertyFormatter formatter)
         {
             _collectionPropertyFormatter = formatter;
             return this;
         }
 
-        public TypeScriptGenerator WithEnumFormatter(FormatEnum typeFormatter, FormatEnumProperty propertyFormatter)
+        public TypeScriptGenerator WithEnumFormatter(IEnumFormatter enumFormatter)
         {
-            _enumFormatter = typeFormatter;
-            _enumPropertyFormatter = propertyFormatter;
+            _enumFormatter = enumFormatter;
             return this;
         }
 
@@ -122,17 +113,18 @@ namespace Typescriptr
             return this;
         }
 
-        private readonly HashSet<Type> _typesGenerated = new HashSet<Type>();
-        private readonly HashSet<string> _enumNames = new HashSet<string>();
-        private readonly Stack<Type> _typeStack = new Stack<Type>();
-        private string _namespace;
+        readonly HashSet<Type> _typesGenerated = new HashSet<Type>();
+        readonly HashSet<string> _enumNames = new HashSet<string>();
+        readonly Stack<Type> _typeStack = new Stack<Type>();
+        string _namespace;
         
-
         public GenerationResult Generate(IEnumerable<Type> types)
         {
             var typeBuilder = new StringBuilder();
             var enumBuilder = new StringBuilder();
 
+            enumBuilder.AppendLine(_enumFormatter.Start());
+            
             foreach (var t in types) _typeStack.Push(t);
 
             while (_typeStack.Any())
@@ -143,6 +135,8 @@ namespace Typescriptr
                 if (type.IsEnum) RenderEnum(enumBuilder, type);
                 else RenderType(typeBuilder, type);
             }
+
+            enumBuilder.Append(_enumFormatter.End());
 
             if (!string.IsNullOrEmpty(_namespace))
             {
@@ -157,15 +151,15 @@ namespace Typescriptr
 
             return new GenerationResult(typeBuilder.ToString(), enumBuilder.ToString());
         }
-
-        private void RenderEnum(StringBuilder builder, Type enumType)
+        
+        void RenderEnum(StringBuilder builder, Type enumType)
         {
-            var enumString = _enumFormatter(enumType, _quoteStyle);
-            builder.Append(enumString);
+            var enumString = _enumFormatter.FormatType(enumType, _quoteStyle);
+            builder.AppendLine(enumString);
             _enumNames.Add(enumType.Name);
         }
 
-        private void RenderType(StringBuilder builder, Type type)
+        void RenderType(StringBuilder builder, Type type)
         {
             var memberTypesToInclude = _memberTypes == MemberType.PropertiesOnly
                 ? MemberTypes.Property
@@ -219,7 +213,7 @@ namespace Typescriptr
             }
         }
 
-        private void RenderTypeName(StringBuilder builder, Type type)
+        void RenderTypeName(StringBuilder builder, Type type)
         {
             var friendlyName = type.Name;
             if (type.IsGenericType) {
@@ -239,7 +233,7 @@ namespace Typescriptr
             }
         }
 
-        private string TypeNameRenderer(Type type)
+        string TypeNameRenderer(Type type)
         {
             Func<string, string> decorate = str => str;
 
@@ -253,21 +247,21 @@ namespace Typescriptr
                 return decorate(_propTypeMap[type]);
 
             if (typeof(IDictionary).IsAssignableFrom(type))
-                return decorate(_dictionaryPropertyFormatter(type, TypeNameRenderer));
+                return decorate(_dictionaryPropertyFormatter.Format(type, TypeNameRenderer));
 
             if (typeof(IEnumerable).IsAssignableFrom(type))
-                return decorate(_collectionPropertyFormatter(type, TypeNameRenderer));
+                return decorate(_collectionPropertyFormatter.Format(type, TypeNameRenderer));
 
             var typeName = type.Name;
             if (typeof(Enum).IsAssignableFrom(type))
-                typeName = _enumPropertyFormatter(type, _quoteStyle);
+                typeName = _enumFormatter.FormatProperty(type, _quoteStyle);
 
             if (!_typesGenerated.Contains(type)) _typeStack.Push(type);
 
             return decorate(typeName);
         }
 
-        private void RenderProperty(StringBuilder builder, Type propType, string propName)
+        void RenderProperty(StringBuilder builder, Type propType, string propName)
         {
             var propTypeName = TypeNameRenderer(propType);
             builder.AppendLine($"{TabString}{propName}: {propTypeName};");

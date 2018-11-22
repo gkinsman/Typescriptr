@@ -5,8 +5,10 @@ declare namespace Api {
 }
 
 ---
+
 enum EnumType {
-  First = 'First',
-  Second = 'Second',
-  Third = 'Third',
+  First = 1,
+  Second = 2,
+  Third = 3,
 }
+

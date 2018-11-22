@@ -1,0 +1,19 @@
+declare namespace Api {
+
+}
+
+---
+function mkenum<T extends {[index: string]: U}, U extends string>(x: T) { return x; }
+
+const SecondEnum = mkenum({
+  C: 'C',
+  D: 'D',
+});
+export type SecondEnum = (typeof SecondEnum)[keyof typeof SecondEnum];
+
+const FirstEnum = mkenum({
+  A: 'A',
+  B: 'B',
+});
+export type FirstEnum = (typeof FirstEnum)[keyof typeof FirstEnum];
+

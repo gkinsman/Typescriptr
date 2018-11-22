@@ -5,8 +5,12 @@ declare namespace Api {
 }
 
 ---
-enum EnumType {
-  FirstEnum = 'FirstEnum',
-  SecondEnum = 'SecondEnum',
-  ThirdEnum = 'ThirdEnum',
-}
+function mkenum<T extends {[index: string]: U}, U extends string>(x: T) { return x; }
+
+const EnumType = mkenum({
+  FirstEnum: 'FirstEnum',
+  SecondEnum: 'SecondEnum',
+  ThirdEnum: 'ThirdEnum',
+});
+export type EnumType = (typeof EnumType)[keyof typeof EnumType];
+

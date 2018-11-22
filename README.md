@@ -60,12 +60,11 @@ By default, Typescriptr will map most common BCL types, and the following comple
 ```csharp
 public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
             .WithPropertyTypeFormatter<DateTimeOffset>(t => "string")
-            .WithEnumFormatter(EnumFormatter.ValueNamedEnumFormatter, 
-              EnumFormatter.UnionStringEnumPropertyTypeFormatter)
+            .WithEnumFormatter(new KeyOfObjectEnumFormatter())
             .WithQuoteStyle(QuoteStyle.Single)
             .WithTypeMembers(MemberType.PropertiesOnly)
-            .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
-            .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
+            .WithDictionaryPropertyFormatter(new KeyValueDictionaryPropertyFormatter())
+            .WithCollectionPropertyFormatter(new GenericTypeCollectionPropertyFormatter())
             .WithNamespace("Api")
             .WithCamelCasedPropertyNames();
 ```

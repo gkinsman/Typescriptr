@@ -12,7 +12,6 @@ namespace Typescript.Tests
         [Fact]
         public void IndentEachLine_NoEmptyLines_ShouldIndentAll()
         {
-
             var stringToIndent = string.Join(Environment.NewLine, "ABCD".ToCharArray());
             
             var indented = stringToIndent.IndentEachLine("  ");

@@ -1,14 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Typescriptr.Exceptions;
 
-namespace Typescriptr.Formatters
+namespace Typescriptr.Dictionaries
 {
-    public static class DictionaryPropertyFormatter
+    public interface IDictionaryPropertyFormatter
     {
-        public static string KeyValueFormatter(Type type, Func<Type, string> typeNameRenderer)
-        {
+        string Format(Type type, Func<Type, string> typeNameRenderer);
+    }
+
+    public class KeyValueDictionaryPropertyFormatter : IDictionaryPropertyFormatter
+    {
+        public string Format(Type type, Func<Type, string> typeNameRenderer) {
             var dictType = type.GetInterface(typeof(IDictionary<,>).Name);
             var typeArguments = dictType.GenericTypeArguments;
             var keyType = typeArguments[0];
