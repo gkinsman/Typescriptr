@@ -6,7 +6,7 @@ declare namespace Api {
 
 ---
 
-enum EnumType {
+export enum EnumType {
   FirstEnum = 'FirstEnum',
   SecondEnum = 'SecondEnum',
   ThirdEnum = 'ThirdEnum',
