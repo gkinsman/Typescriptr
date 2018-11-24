@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/gkinsman/Typescriptr/compare/v1.2.0...v1.2.1) (2018-11-24)
+
+
+### Bug Fixes
+
+* **api:** Don't render enums twice if they appear in separate objects ([e972977](https://github.com/gkinsman/Typescriptr/commit/e972977))
+
 # [1.2.0](https://github.com/gkinsman/Typescriptr/compare/v1.1.1...v1.2.0) (2018-11-17)
 
 
