@@ -253,7 +253,7 @@ namespace Typescriptr
             if (_propTypeMap.ContainsKey(type))
                 return decorate(_propTypeMap[type]);
 
-            if (typeof(IDictionary).IsAssignableFrom(type))
+            if (type.IsClosedTypeOf(typeof(IDictionary<,>)))
                 return decorate(_dictionaryPropertyFormatter(type, TypeNameRenderer));
 
             if (typeof(IEnumerable).IsAssignableFrom(type))

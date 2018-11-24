@@ -40,6 +40,24 @@ namespace Typescript.Tests.DictionaryTypes
             this.Assent(generated.Types);
         }
 
+        class TypeWithCustomDictionaryProp
+        {
+            public ICustomDictionary DictProp { get; set; }
+        }
+
+        interface ICustomDictionary : IDictionary<string, int>
+        {
+        }
+        
+        [Fact]
+        public void Generator_TypeWithCustomDictionaryValueType_ShouldRenderToTypescriptMap()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeWithCustomDictionaryProp)});
+
+            this.Assent(generated.JoinTypesAndEnums());
+        }
+
         enum TestEnum
         {
             FirstValue,
@@ -60,6 +78,5 @@ namespace Typescript.Tests.DictionaryTypes
 
             this.Assent(generated.JoinTypesAndEnums());
         }
-
     }
 }
