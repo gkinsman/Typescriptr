@@ -25,10 +25,7 @@ namespace Typescript.Tests.Enums
             var generator = TypeScriptGenerator.CreateDefault();
             var generated = generator.Generate(new[] {typeof(TypeWithEnum)});
 
-            var result = string.Join($"{Environment.NewLine}---{Environment.NewLine}", generated.Types,
-                generated.Enums);
-
-            this.Assent(result);
+            this.Assent(generated.JoinTypesAndEnums());
         }
         
         class TypeWithNullableEnum
