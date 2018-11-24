@@ -148,6 +148,9 @@ namespace Typescriptr
                 var type = _typeStack.Pop();
                 if (_typesGenerated.Contains(type)) continue;
 
+                if (_typeDecorator != null)
+                    (type.IsEnum ? enumBuilder : typeBuilder).AppendLine(_typeDecorator(type));
+
                 if (type.IsEnum) RenderEnum(enumBuilder, type);
                 else RenderType(typeBuilder, type);
             }
@@ -169,10 +172,6 @@ namespace Typescriptr
         private void RenderEnum(StringBuilder builder, Type enumType)
         {
             var enumString = _enumFormatter(enumType, _quoteStyle);
-            if (_typeDecorator != null)
-            {
-                builder.AppendLine(_typeDecorator(enumType));
-            }
             builder.Append(enumString);
             _enumNames.Add(enumType.Name);
         }
@@ -193,11 +192,6 @@ namespace Typescriptr
             }
             var baseType = type.BaseType;
             var hasBaseType = ShouldExport(baseType);
-
-            if (_typeDecorator != null)
-            {
-                builder.AppendLine(_typeDecorator(type));
-            }
 
             builder.Append($"interface ");
             RenderTypeName(builder, type);
