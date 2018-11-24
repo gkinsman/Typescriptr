@@ -1,0 +1,15 @@
+declare namespace Api {
+  interface TypeTwoWithEnum {
+    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+  interface TypeOneWithEnum {
+    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+}
+
+---
+enum SharedEnumType {
+  FirstEnum = 'FirstEnum',
+  SecondEnum = 'SecondEnum',
+  ThirdEnum = 'ThirdEnum',
+}

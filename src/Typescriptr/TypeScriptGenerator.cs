@@ -160,9 +160,10 @@ namespace Typescriptr
 
         private void RenderEnum(StringBuilder builder, Type enumType)
         {
+            if (_enumNames.Contains(enumType.FullName)) return;
             var enumString = _enumFormatter(enumType, _quoteStyle);
             builder.Append(enumString);
-            _enumNames.Add(enumType.Name);
+            _enumNames.Add(enumType.FullName);
         }
 
         private void RenderType(StringBuilder builder, Type type)

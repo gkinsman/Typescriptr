@@ -74,5 +74,34 @@ namespace Typescript.Tests.Enums
 
             this.Assent(generated.JoinTypesAndEnums());
         }
+
+        
+        class TypeOneWithEnum
+        {
+            public SharedEnumType AnEnum { get; set; }
+        }
+        class TypeTwoWithEnum
+        {
+            public SharedEnumType AnEnum { get; set; }
+        }
+
+        public enum SharedEnumType
+        {
+            FirstEnum,
+            SecondEnum,
+            ThirdEnum
+        }
+        
+        [Fact]
+        public void Generator_TypesWithSharedEnum_ShouldOnlyGenerateTheEnumOnce()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeOneWithEnum), typeof(TypeTwoWithEnum)});
+
+            var result = string.Join($"{Environment.NewLine}---{Environment.NewLine}", generated.Types,
+                generated.Enums);
+
+            this.Assent(result);
+        }
     }
 }
