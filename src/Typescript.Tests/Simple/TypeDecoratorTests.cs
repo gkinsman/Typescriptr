@@ -1,4 +1,3 @@
-using System;
 using Assent;
 using Typescriptr;
 using Typescriptr.Formatters;
@@ -41,8 +40,7 @@ namespace Typescript.Tests.Simple
                 typeof(TypeWithEnum)
             });
             
-            var result = string.Join($"{Environment.NewLine}---{Environment.NewLine}", generated.Types, generated.Enums);
-            this.Assent(result);
+            this.Assent(generated.JoinTypesAndEnums());
         }
     }
 }
