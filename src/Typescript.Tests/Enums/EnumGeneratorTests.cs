@@ -1,7 +1,6 @@
 using System;
 using Assent;
 using Typescriptr;
-using Typescriptr.Formatters;
 using Xunit;
 
 namespace Typescript.Tests.Enums

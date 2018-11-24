@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
-using Typescriptr.Exceptions;
 using Typescriptr.Formatters;
 
 namespace Typescriptr
 {
+    public delegate string DecorateType(Type t);
+
     public delegate string FormatEnum(Type t, QuoteStyle quoteStyle);
 
     public delegate string FormatEnumProperty(Type t, QuoteStyle quoteStyle);
@@ -18,10 +18,12 @@ namespace Typescriptr
 
     public delegate string FormatCollectionProperty(Type t, Func<Type, string> typeNameRenderer);
 
+
     public class TypeScriptGenerator
     {
         public static readonly string TabString = "  ";
 
+        private DecorateType _typeDecorator;
         private FormatEnum _enumFormatter;
         private FormatEnumProperty _enumPropertyFormatter;
         private FormatDictionaryProperty _dictionaryPropertyFormatter;
@@ -83,6 +85,12 @@ namespace Typescriptr
         public TypeScriptGenerator WithQuoteStyle(QuoteStyle style)
         {
             _quoteStyle = style;
+            return this;
+        }
+
+        public TypeScriptGenerator WithTypeDecorator(DecorateType decorator)
+        {
+            _typeDecorator = decorator;
             return this;
         }
 
@@ -161,6 +169,10 @@ namespace Typescriptr
         private void RenderEnum(StringBuilder builder, Type enumType)
         {
             var enumString = _enumFormatter(enumType, _quoteStyle);
+            if (_typeDecorator != null)
+            {
+                builder.AppendLine(_typeDecorator(enumType));
+            }
             builder.Append(enumString);
             _enumNames.Add(enumType.Name);
         }
@@ -181,6 +193,11 @@ namespace Typescriptr
             }
             var baseType = type.BaseType;
             var hasBaseType = ShouldExport(baseType);
+
+            if (_typeDecorator != null)
+            {
+                builder.AppendLine(_typeDecorator(type));
+            }
 
             builder.Append($"interface ");
             RenderTypeName(builder, type);

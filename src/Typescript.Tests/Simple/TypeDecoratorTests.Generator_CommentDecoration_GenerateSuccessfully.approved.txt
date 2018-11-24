@@ -1,0 +1,41 @@
+declare namespace Api {
+  /*
+   * NB: Do not edit this class manually
+   * Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithEnum
+   * Generated using Typescriptr https://github.com/gkinsman/Typescriptr
+   */
+  interface TypeWithEnum {
+    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+  /*
+   * NB: Do not edit this class manually
+   * Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithNestedType
+   * Generated using Typescriptr https://github.com/gkinsman/Typescriptr
+   */
+  interface TypeWithNestedType {
+    simpleType: SimpleTypesOnly;
+  }
+  /*
+   * NB: Do not edit this class manually
+   * Source: Typescript.Tests.Simple.TypeDecoratorTests+SimpleTypesOnly
+   * Generated using Typescriptr https://github.com/gkinsman/Typescriptr
+   */
+  interface SimpleTypesOnly {
+    intType: number;
+    longType: number;
+    stringType: string;
+    decimalType: number;
+  }
+}
+
+---
+/*
+ * NB: Do not edit this class manually
+ * Source: Typescript.Tests.Simple.TypeDecoratorTests+EnumType
+ * Generated using Typescriptr https://github.com/gkinsman/Typescriptr
+ */
+enum EnumType {
+  FirstEnum = 'FirstEnum',
+  SecondEnum = 'SecondEnum',
+  ThirdEnum = 'ThirdEnum',
+}
