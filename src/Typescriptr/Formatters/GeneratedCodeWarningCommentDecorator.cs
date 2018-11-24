@@ -2,7 +2,7 @@ using System;
 
 namespace Typescriptr.Formatters
 {
-    public class CommentBlockDecorator
+    public class GeneratedCodeWarningCommentDecorator
     {
         public static string Decorate(Type type)
         {
