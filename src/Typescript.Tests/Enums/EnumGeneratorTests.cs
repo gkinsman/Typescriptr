@@ -1,7 +1,6 @@
 using System;
 using Assent;
 using Typescriptr;
-using Typescriptr.Formatters;
 using Xunit;
 
 namespace Typescript.Tests.Enums
@@ -26,10 +25,7 @@ namespace Typescript.Tests.Enums
             var generator = TypeScriptGenerator.CreateDefault();
             var generated = generator.Generate(new[] {typeof(TypeWithEnum)});
 
-            var result = string.Join($"{Environment.NewLine}---{Environment.NewLine}", generated.Types,
-                generated.Enums);
-
-            this.Assent(result);
+            this.Assent(generated.JoinTypesAndEnums());
         }
         
         class TypeWithNullableEnum

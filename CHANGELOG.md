@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/gkinsman/Typescriptr/compare/v1.1.1...v1.2.0) (2018-11-17)
+
+
+### Features
+
+* **api:** Add support for generics ([a3f96e3](https://github.com/gkinsman/Typescriptr/commit/a3f96e3))
+* **api:** added support for inheritance thanks to @Lavinski ([e9b4b6e](https://github.com/gkinsman/Typescriptr/commit/e9b4b6e))
+
 ## [1.1.1](https://github.com/gkinsman/Typescriptr/compare/v1.1.0...v1.1.1) (2018-10-17)
 
 
