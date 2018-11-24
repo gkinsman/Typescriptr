@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/gkinsman/Typescriptr/compare/v1.3.0...v1.4.0) (2018-11-24)
+
+
+### Features
+
+* **api:** Add support for decorating types ([28a6213](https://github.com/gkinsman/Typescriptr/commit/28a6213))
+
 # [1.3.0](https://github.com/gkinsman/Typescriptr/compare/v1.2.1...v1.3.0) (2018-11-24)
 
 
