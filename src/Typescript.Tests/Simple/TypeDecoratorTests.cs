@@ -32,7 +32,7 @@ namespace Typescript.Tests.Simple
         [Fact]
         public void Generator_CommentDecoration_GenerateSuccessfully()
         {
-            var generator = TypeScriptGenerator.CreateDefault().WithTypeDecorator(CommentBlockDecorator.Decorate);
+            var generator = TypeScriptGenerator.CreateDefault().WithTypeDecorator(GeneratedCodeWarningCommentDecorator.Decorate);
             var generated = generator.Generate(new[]
             {
                 typeof(SimpleTypesOnly),
