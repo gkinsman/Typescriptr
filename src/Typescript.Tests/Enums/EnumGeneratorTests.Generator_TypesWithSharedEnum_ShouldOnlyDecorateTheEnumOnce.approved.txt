@@ -1,0 +1,18 @@
+declare namespace Api {
+  // Source: Typescript.Tests.Enums.EnumGeneratorTests+TypeTwoWithEnum
+  interface TypeTwoWithEnum {
+    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+  // Source: Typescript.Tests.Enums.EnumGeneratorTests+TypeOneWithEnum
+  interface TypeOneWithEnum {
+    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+  }
+}
+
+---
+// Source: Typescript.Tests.Enums.EnumGeneratorTests+SharedEnumType
+enum SharedEnumType {
+  FirstEnum = 'FirstEnum',
+  SecondEnum = 'SecondEnum',
+  ThirdEnum = 'ThirdEnum',
+}

@@ -1,6 +1,7 @@
 using System;
 using Assent;
 using Typescriptr;
+using Typescriptr.Formatters;
 using Xunit;
 
 namespace Typescript.Tests.Enums
@@ -71,7 +72,6 @@ namespace Typescript.Tests.Enums
             this.Assent(generated.JoinTypesAndEnums());
         }
 
-        
         class TypeOneWithEnum
         {
             public SharedEnumType AnEnum { get; set; }
@@ -92,6 +92,17 @@ namespace Typescript.Tests.Enums
         public void Generator_TypesWithSharedEnum_ShouldOnlyGenerateTheEnumOnce()
         {
             var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeOneWithEnum), typeof(TypeTwoWithEnum)});
+
+            this.Assent(generated.JoinTypesAndEnums());
+        }
+
+        [Fact]
+        public void Generator_TypesWithSharedEnum_ShouldOnlyDecorateTheEnumOnce()
+        {
+            var generator = TypeScriptGenerator.CreateDefault()
+                .WithTypeDecorator(SourceLocationCommentDecorator.Decorate);
+
             var generated = generator.Generate(new[] {typeof(TypeOneWithEnum), typeof(TypeTwoWithEnum)});
 
             this.Assent(generated.JoinTypesAndEnums());
