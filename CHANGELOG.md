@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/gkinsman/Typescriptr/compare/v1.4.0...v1.4.1) (2018-11-25)
+
+
+### Bug Fixes
+
+* **api:** Don't render comments for enums if the enum has already been rendered ([9d9c64a](https://github.com/gkinsman/Typescriptr/commit/9d9c64a))
+
 # [1.4.0](https://github.com/gkinsman/Typescriptr/compare/v1.3.0...v1.4.0) (2018-11-24)
 
 
