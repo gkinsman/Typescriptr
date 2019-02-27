@@ -68,8 +68,8 @@ Task("Clean")
 
 /*
 Normally this task should only run based on the 'IsRunningOnAppveyorMasterBranch' condition,
-however sometimes you want to run this locally to preview the next sematic version
-number and changlelog.
+however sometimes you want to run this locally to preview the next semantic version
+number and changelog.
 
 To do this run the following locally:
 > $env:NUGET_TOKEN="insert_token_here"
@@ -211,9 +211,11 @@ public class BuildContext
     {
         ProjectName = projectName;
         Target = context.Argument<string>("target", "Default");
-        Configuration = context.Argument<string>("configuration", "Release");
-
+        
         IsRunningOnWindows = context.IsRunningOnWindows();
+        var os = IsRunningOnWindows ? "Windows" : "Linux";
+        Configuration = context.Argument<string>("configuration", $"Release{os}");
+
         IsRunningOnAppveyorMasterBranch = StringComparer.OrdinalIgnoreCase.Equals(
             "master",
             context.BuildSystem().AppVeyor.Environment.Repository.Branch

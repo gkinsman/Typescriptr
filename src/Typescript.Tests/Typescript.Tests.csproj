@@ -1,9 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <Configurations>Debug;ReleaseWindows;ReleaseLinux</Configurations>
+
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseLinux' ">
+      <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
