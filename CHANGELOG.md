@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/gkinsman/Typescriptr/compare/v1.4.1...v1.4.2) (2019-02-27)
+
+
+### Bug Fixes
+
+* **api:** add net45 target for pre-netcore solutions ([a7ea20f](https://github.com/gkinsman/Typescriptr/commit/a7ea20f))
+
 ## [1.4.1](https://github.com/gkinsman/Typescriptr/compare/v1.4.0...v1.4.1) (2018-11-25)
 
 
