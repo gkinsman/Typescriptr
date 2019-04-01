@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/gkinsman/Typescriptr/compare/v1.4.2...v1.5.0) (2019-04-01)
+
+
+### Features
+
+* **api:** Member filtering ([d2c9033](https://github.com/gkinsman/Typescriptr/commit/d2c9033))
+
 ## [1.4.2](https://github.com/gkinsman/Typescriptr/compare/v1.4.1...v1.4.2) (2019-02-27)
 
 
