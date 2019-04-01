@@ -68,7 +68,8 @@ public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
             .WithNamespace("Api")
-            .WithCamelCasedPropertyNames();
+            .WithCamelCasedPropertyNames()
+	    .WithMemberFilter(() => true);
 ```
 
 ## Enums
@@ -154,6 +155,10 @@ declare namespace Api {
   }
 }
 ```
+
+## Member Filtering
+
+Members that should not be emitted can be filtered using a `Func<MemberInfo, bool>` passed into `WithMemberFilter` when creating the typescript generator. For example, you might want to [filter out properties using an `IgnoreAttribute`](https://github.com/gkinsman/Typescriptr/blob/876fbe6b65/src/Typescript.Tests/Simple/MemberFilterTests.cs)
 
 #### Notes
 - As with IDictionary types, it is recommended to not have API types inherit directly from the interface, but to have properties of the type, else the expected output doesn't make much sense.
