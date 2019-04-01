@@ -18,6 +18,7 @@ namespace Typescriptr
 
     public delegate string FormatCollectionProperty(Type t, Func<Type, string> typeNameRenderer);
 
+    public delegate bool MemberFilter(MemberInfo memberInfo);
 
     public class TypeScriptGenerator
     {
@@ -28,6 +29,7 @@ namespace Typescriptr
         private FormatEnumProperty _enumPropertyFormatter;
         private FormatDictionaryProperty _dictionaryPropertyFormatter;
         private FormatCollectionProperty _collectionPropertyFormatter;
+        private MemberFilter _memberFilter;
         
         private QuoteStyle _quoteStyle;
         private MemberType _memberTypes;
@@ -221,7 +223,11 @@ namespace Typescriptr
                     memberName = memberName.ToCamelCase();
 
                 if (memberInfo.DeclaringType == type) {
-                    RenderProperty(builder, memberType, memberName);
+
+                    if (_memberFilter == null || _memberFilter(memberInfo))
+                    {
+                        RenderProperty(builder, memberType, memberName);
+                    }
                 }
             }
 
@@ -287,6 +293,12 @@ namespace Typescriptr
         {
             var propTypeName = TypeNameRenderer(propType);
             builder.AppendLine($"{TabString}{propName}: {propTypeName};");
+        }
+
+        public TypeScriptGenerator WithMemberFilter(MemberFilter memberFilter)
+        {
+            _memberFilter = memberFilter;
+            return this;
         }
     }
 }
