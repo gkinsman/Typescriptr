@@ -156,13 +156,13 @@ declare namespace Api {
 }
 ```
 
+#### Notes
+- As with IDictionary types, it is recommended to not have API types inherit directly from the IEnumerable<T> interface, but to have properties of type IEnumerable<T> to avoid transpiling the properties of IEnumerable<T>.
+
+
 ## Member Filtering
 
 Members that should not be emitted can be filtered using a `Func<MemberInfo, bool>` passed into `WithMemberFilter` when creating the typescript generator. For example, you might want to [filter out properties using an `IgnoreAttribute`](https://github.com/gkinsman/Typescriptr/blob/876fbe6b65/src/Typescript.Tests/Simple/MemberFilterTests.cs)
-
-#### Notes
-- As with IDictionary types, it is recommended to not have API types inherit directly from the interface, but to have properties of the type, else the expected output doesn't make much sense.
-
 
 ## Nullable Value Types
 
