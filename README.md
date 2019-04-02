@@ -162,7 +162,13 @@ declare namespace Api {
 
 ## Member Filtering
 
-Members that should not be emitted can be filtered using a `Func<MemberInfo, bool>` passed into `WithMemberFilter` when creating the typescript generator. For example, you might want to [filter out properties using an `IgnoreAttribute`](https://github.com/gkinsman/Typescriptr/blob/876fbe6b65/src/Typescript.Tests/Simple/MemberFilterTests.cs)
+Members that should not be emitted can be filtered using a `Func<MemberInfo, bool>` passed into `WithMemberFilter` when creating the typescript generator. For example, you might want to [filter out properties using an `IgnoreAttribute`](https://github.com/gkinsman/Typescriptr/blob/876fbe6b65/src/Typescript.Tests/Simple/MemberFilterTests.cs):
+
+```csharp
+var generator = TypeScriptGenerator
+                    .CreateDefault()
+                    .WithMemberFilter(memberInfo => memberInfo.GetCustomAttribute<IgnoreAttribute>() == null)
+```
 
 ## Nullable Value Types
 
