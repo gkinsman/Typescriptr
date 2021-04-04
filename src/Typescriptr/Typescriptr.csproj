@@ -15,7 +15,7 @@
         </Description>
         <PackageProjectUrl>https://github.com/gkinsman/Typescriptr</PackageProjectUrl>
         <RepositoryUrl>https://github.com/gkinsman/Typescriptr</RepositoryUrl>
-        <PackageLicenseUrl>https://github.com/gkinsman/Typescriptr/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <PropertyGroup>
