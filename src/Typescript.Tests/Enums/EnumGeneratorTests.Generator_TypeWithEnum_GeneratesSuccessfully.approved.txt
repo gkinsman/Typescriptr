@@ -1,8 +1,7 @@
-declare namespace Api {
-  interface TypeWithEnum {
-    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
-  }
+export interface TypeWithEnum {
+  anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
+
 
 ---
 enum EnumType {

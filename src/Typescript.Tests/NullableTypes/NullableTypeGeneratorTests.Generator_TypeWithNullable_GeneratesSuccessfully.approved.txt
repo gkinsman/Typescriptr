@@ -1,6 +1,5 @@
-declare namespace Api {
-  interface TypeWithNullable {
-    nullableInt: number | null;
-    nullableGuid: string | null;
-  }
+export interface TypeWithNullable {
+  nullableInt: number | null;
+  nullableGuid: string | null;
 }
+

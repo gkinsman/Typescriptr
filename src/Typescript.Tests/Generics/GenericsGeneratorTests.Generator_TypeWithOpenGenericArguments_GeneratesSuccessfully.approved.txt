@@ -1,4 +1,3 @@
-declare namespace Api {
-  interface TypeWithOpenGenericArguments<T> {
-  }
+export interface TypeWithOpenGenericArguments<T> {
 }
+

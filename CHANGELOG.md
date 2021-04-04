@@ -1,3 +1,13 @@
+# [2.0.0](https://github.com/gkinsman/Typescriptr/compare/v1.5.0...v2.0.0) (2021-04-04)
+
+
+* Merge pull request #47 from gkinsman/switch-to-modules ([0cad8f1](https://github.com/gkinsman/Typescriptr/commit/0cad8f12738e00a01dc14f69256d4df1dfad4196)), closes [#47](https://github.com/gkinsman/Typescriptr/issues/47)
+
+
+### BREAKING CHANGES
+
+* Switch off module nesting by default
+
 # [1.5.0](https://github.com/gkinsman/Typescriptr/compare/v1.4.2...v1.5.0) (2019-04-01)
 
 

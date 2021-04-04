@@ -1,6 +1,5 @@
-declare namespace Api {
-  interface TestTypeWithFields {
-    stringField: string;
-    intField: number;
-  }
+export interface TestTypeWithFields {
+  stringField: string;
+  intField: number;
 }
+

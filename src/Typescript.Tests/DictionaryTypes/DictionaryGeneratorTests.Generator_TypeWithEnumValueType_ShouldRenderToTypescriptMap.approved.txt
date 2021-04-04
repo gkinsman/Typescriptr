@@ -1,8 +1,7 @@
-declare namespace Api {
-  interface TypeWithDictionaryAndEnumPropAsValue {
-    enumDictionary: { [key: string]: 'FirstValue' | 'SecondValue' | 'ThirdValue' };
-  }
+export interface TypeWithDictionaryAndEnumPropAsValue {
+  enumDictionary: { [key: string]: 'FirstValue' | 'SecondValue' | 'ThirdValue' };
 }
+
 
 ---
 enum TestEnum {

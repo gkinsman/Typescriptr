@@ -1,5 +1,4 @@
-declare namespace Api {
-  interface TypeWithPrivateProperties {
-    publicGuidProp: string;
-  }
+export interface TypeWithPrivateProperties {
+  publicGuidProp: string;
 }
+

@@ -1,7 +1,6 @@
-declare namespace Api {
-  interface SimpleClass {
-    serializedType: number;
-  }
+export interface SimpleClass {
+  serializedType: number;
 }
+
 
 ---
