@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithValuedEnum {
+declare module 'Api' {
+  export interface TypeWithValuedEnum {
     enumWithValueProp: 'First' | 'Second' | 'Third';
   }
 }

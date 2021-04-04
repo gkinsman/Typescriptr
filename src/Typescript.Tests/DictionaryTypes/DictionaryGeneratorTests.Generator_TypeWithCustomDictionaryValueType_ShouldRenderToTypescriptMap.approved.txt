@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithCustomDictionaryProp {
+declare module 'Api' {
+  export interface TypeWithCustomDictionaryProp {
     dictProp: { [key: string]: number };
   }
 }

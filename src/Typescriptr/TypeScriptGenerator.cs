@@ -55,6 +55,7 @@ namespace Typescriptr
             {typeof(DayOfWeek), "string"},
             {typeof(TimeSpan), "string"},
             {typeof(Guid), "string"},
+            {typeof(object), "unknown"}
         };
 
         private TypeScriptGenerator()
@@ -157,7 +158,7 @@ namespace Typescriptr
             if (!string.IsNullOrEmpty(_namespace))
             {
                 typeBuilder = new StringBuilder(typeBuilder.ToString().IndentEachLine(TabString));
-                typeBuilder.PrependLine($"declare namespace {_namespace} {{");
+                typeBuilder.PrependLine($"declare module '{_namespace}' {{");
                 typeBuilder.AppendLine("}");
             }
             else
@@ -200,7 +201,7 @@ namespace Typescriptr
             if (_typeDecorator != null)
                 builder.AppendLine(_typeDecorator(type));
 
-            builder.Append($"interface ");
+            builder.Append($"export interface ");
             RenderTypeName(builder, type);
             if (hasBaseType) {
                 builder.Append($" extends ");

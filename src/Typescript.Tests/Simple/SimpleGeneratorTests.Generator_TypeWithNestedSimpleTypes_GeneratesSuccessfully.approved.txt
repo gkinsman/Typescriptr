@@ -1,8 +1,8 @@
-declare namespace Api {
-  interface TypeWithNestedType {
+declare module 'Api' {
+  export interface TypeWithNestedType {
     simpleType: SimpleTypesOnly;
   }
-  interface SimpleTypesOnly {
+  export interface SimpleTypesOnly {
     intType: number;
     longType: number;
     stringType: string;

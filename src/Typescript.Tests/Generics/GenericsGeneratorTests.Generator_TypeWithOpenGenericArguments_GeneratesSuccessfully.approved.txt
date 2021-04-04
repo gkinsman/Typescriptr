@@ -1,4 +1,4 @@
-declare namespace Api {
-  interface TypeWithOpenGenericArguments<T> {
+declare module 'Api' {
+  export interface TypeWithOpenGenericArguments<T> {
   }
 }

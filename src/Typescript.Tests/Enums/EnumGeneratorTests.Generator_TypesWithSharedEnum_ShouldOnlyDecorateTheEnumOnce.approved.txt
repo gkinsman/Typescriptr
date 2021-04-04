@@ -1,10 +1,10 @@
-declare namespace Api {
+declare module 'Api' {
   // Source: Typescript.Tests.Enums.EnumGeneratorTests+TypeTwoWithEnum
-  interface TypeTwoWithEnum {
+  export interface TypeTwoWithEnum {
     anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
   }
   // Source: Typescript.Tests.Enums.EnumGeneratorTests+TypeOneWithEnum
-  interface TypeOneWithEnum {
+  export interface TypeOneWithEnum {
     anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
   }
 }

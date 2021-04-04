@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface SimpleTypesOnly {
+declare module 'Api' {
+  export interface SimpleTypesOnly {
     intType: number;
     longType: number;
     stringType: string;

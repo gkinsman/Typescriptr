@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithDictionaryAndEnumPropAsValue {
+declare module 'Api' {
+  export interface TypeWithDictionaryAndEnumPropAsValue {
     enumDictionary: { [key: string]: 'FirstValue' | 'SecondValue' | 'ThirdValue' };
   }
 }

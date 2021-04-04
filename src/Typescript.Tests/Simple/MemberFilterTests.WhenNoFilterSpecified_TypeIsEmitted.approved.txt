@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface SimpleClass {
+declare module 'Api' {
+  export interface SimpleClass {
     serializedType: number;
     ignoredType: number;
   }

@@ -1,7 +1,7 @@
-declare namespace Api {
-  interface TypeWithBaseClass extends BaseClass {
+declare module 'Api' {
+  export interface TypeWithBaseClass extends BaseClass {
   }
-  interface BaseClass {
+  export interface BaseClass {
     property: string;
   }
 }

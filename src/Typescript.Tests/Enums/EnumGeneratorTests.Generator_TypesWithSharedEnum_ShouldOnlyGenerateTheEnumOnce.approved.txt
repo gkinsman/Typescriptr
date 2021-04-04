@@ -1,8 +1,8 @@
-declare namespace Api {
-  interface TypeTwoWithEnum {
+declare module 'Api' {
+  export interface TypeTwoWithEnum {
     anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
   }
-  interface TypeOneWithEnum {
+  export interface TypeOneWithEnum {
     anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
   }
 }

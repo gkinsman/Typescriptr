@@ -1,8 +1,8 @@
-declare namespace Api {
-  interface TypeWithComplexDictionaryValue {
+declare module 'Api' {
+  export interface TypeWithComplexDictionaryValue {
     dictProp: { [key: number]: ComplexType };
   }
-  interface ComplexType {
+  export interface ComplexType {
     aProp: string;
   }
 }

@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithNullableEnum {
+declare module 'Api' {
+  export interface TypeWithNullableEnum {
     nullableEnumProp: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum' | null;
   }
 }

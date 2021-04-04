@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithArrayProp {
+declare module 'Api' {
+  export interface TypeWithArrayProp {
     arrayProp: string[];
   }
 }

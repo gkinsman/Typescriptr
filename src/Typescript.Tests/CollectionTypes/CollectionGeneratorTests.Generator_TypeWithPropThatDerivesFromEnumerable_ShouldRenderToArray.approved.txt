@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithPropThatInheritsFromIEnumerable {
+declare module 'Api' {
+  export interface TypeWithPropThatInheritsFromIEnumerable {
     derivedFromList: number[];
   }
 }

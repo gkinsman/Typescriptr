@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TestTypeWithFieldsAndProps {
+declare module 'Api' {
+  export interface TestTypeWithFieldsAndProps {
     stringProp: string;
   }
 }

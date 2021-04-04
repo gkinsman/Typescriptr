@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TestTypeWithFields {
+declare module 'Api' {
+  export interface TestTypeWithFields {
     stringField: string;
     intField: number;
   }

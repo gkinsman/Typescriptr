@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithNullable {
+declare module 'Api' {
+  export interface TypeWithNullable {
     nullableInt: number | null;
     nullableGuid: string | null;
   }

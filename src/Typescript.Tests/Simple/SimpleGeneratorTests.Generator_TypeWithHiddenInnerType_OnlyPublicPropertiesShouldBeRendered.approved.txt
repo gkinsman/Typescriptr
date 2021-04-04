@@ -1,5 +1,5 @@
-declare namespace Api {
-  interface TypeWithPrivateProperties {
+declare module 'Api' {
+  export interface TypeWithPrivateProperties {
     publicGuidProp: string;
   }
 }
