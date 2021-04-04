@@ -1,8 +1,7 @@
-declare namespace Api {
-  interface SimpleTypesOnly {
-    intType: number;
-    longType: number;
-    stringType: string;
-    decimalType: number;
-  }
+export interface SimpleTypesOnly {
+  intType: number;
+  longType: number;
+  stringType: string;
+  decimalType: number;
 }
+

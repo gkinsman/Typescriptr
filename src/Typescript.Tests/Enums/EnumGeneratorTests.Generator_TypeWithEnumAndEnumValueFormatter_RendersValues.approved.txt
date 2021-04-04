@@ -1,8 +1,7 @@
-declare namespace Api {
-  interface TypeWithValuedEnum {
-    enumWithValueProp: 'First' | 'Second' | 'Third';
-  }
+export interface TypeWithValuedEnum {
+  enumWithValueProp: 'First' | 'Second' | 'Third';
 }
+
 
 ---
 enum EnumType {

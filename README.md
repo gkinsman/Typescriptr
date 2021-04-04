@@ -67,7 +67,6 @@ public static TypeScriptGenerator CreateDefault() => new TypeScriptGenerator()
             .WithMemberFilter(() => true))
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
-            .WithNamespace("Api")
             .WithCamelCasedPropertyNames()
 	    .WithMemberFilter(() => true);
 ```
@@ -95,10 +94,8 @@ class TypeWithEnum
 
 produces `result.Types`:
 ```TypeScript
-declare namespace Api {
-  interface TypeWithEnum {
-    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
-  }
+interface TypeWithEnum {
+  anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
 ```
 and `result.Enums`:
@@ -130,10 +127,8 @@ class TypeWithDictionaryProp
 ```
 produces
 ```TypeScript
-declare namespace Api {
-  interface TypeWithDictionaryProp {
-    dictProp: { [key: string]: number };
-  }
+interface TypeWithDictionaryProp {
+  dictProp: { [key: string]: number };
 }
 ```
 
@@ -149,10 +144,8 @@ class TypeWithArrayProp
 ```
 produces:
 ```TypeScript
-declare namespace Api {
-  interface TypeWithArrayProp {
-    arrayProp: string[];
-  }
+interface TypeWithArrayProp {
+  arrayProp: string[];
 }
 ```
 
@@ -183,11 +176,9 @@ class TypeWithNullable
 ```
 
 ```TypeScript
-declare namespace Api {
-  interface TypeWithNullable {
-    nullableInt: number | null;
-    nullableGuid: string | null;
-  }
+interface TypeWithNullable {
+  nullableInt: number | null;
+  nullableGuid: string | null;
 }
 ```
 

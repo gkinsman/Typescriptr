@@ -55,6 +55,7 @@ namespace Typescriptr
             {typeof(DayOfWeek), "string"},
             {typeof(TimeSpan), "string"},
             {typeof(Guid), "string"},
+            {typeof(object), "unknown"}
         };
 
         private TypeScriptGenerator()
@@ -69,7 +70,6 @@ namespace Typescriptr
             .WithTypeMembers(MemberType.PropertiesOnly)
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
-            .WithNamespace("Api")
             .WithCamelCasedPropertyNames();
 
         public TypeScriptGenerator WithTypeMembers(MemberType memberTypes)
@@ -96,9 +96,9 @@ namespace Typescriptr
             return this;
         }
 
-        public TypeScriptGenerator WithNamespace(string @namespace)
+        public TypeScriptGenerator WithModule(string module)
         {
-            _namespace = @namespace;
+            _module = module;
             return this;
         }
 
@@ -135,7 +135,7 @@ namespace Typescriptr
         private readonly HashSet<Type> _typesGenerated = new HashSet<Type>();
         private readonly HashSet<string> _enumNames = new HashSet<string>();
         private readonly Stack<Type> _typeStack = new Stack<Type>();
-        private string _namespace;
+        private string _module;
         
 
         public GenerationResult Generate(IEnumerable<Type> types)
@@ -154,10 +154,10 @@ namespace Typescriptr
                 else RenderType(typeBuilder, type);
             }
 
-            if (!string.IsNullOrEmpty(_namespace))
+            if (!string.IsNullOrEmpty(_module))
             {
                 typeBuilder = new StringBuilder(typeBuilder.ToString().IndentEachLine(TabString));
-                typeBuilder.PrependLine($"declare namespace {_namespace} {{");
+                typeBuilder.PrependLine($"declare module '{_module}' {{");
                 typeBuilder.AppendLine("}");
             }
             else
@@ -200,7 +200,7 @@ namespace Typescriptr
             if (_typeDecorator != null)
                 builder.AppendLine(_typeDecorator(type));
 
-            builder.Append($"interface ");
+            builder.Append($"export interface ");
             RenderTypeName(builder, type);
             if (hasBaseType) {
                 builder.Append($" extends ");

@@ -20,7 +20,7 @@ namespace Typescript.Tests.Simple
         public void Generator_TypeWithBuiltInPropsOnly_GeneratesSuccessfully()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(SimpleTypesOnly)});
+            var generated = generator.Generate(new[] { typeof(SimpleTypesOnly) });
 
             this.Assent(generated.Types);
         }
@@ -34,7 +34,7 @@ namespace Typescript.Tests.Simple
         public void Generator_TypeWithNestedSimpleTypes_GeneratesSuccessfully()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithNestedType)});
+            var generated = generator.Generate(new[] { typeof(TypeWithNestedType) });
 
             this.Assent(generated.Types);
         }
@@ -42,8 +42,7 @@ namespace Typescript.Tests.Simple
         class TypeWithPrivateProperties
         {
             private class HiddenInnerType
-            {
-            }
+            { }
 
             private string PrivateStringProp { get; set; }
             private int PrivateIntProp { get; set; }
@@ -55,7 +54,7 @@ namespace Typescript.Tests.Simple
         public void Generator_TypeWithHiddenInnerType_OnlyPublicPropertiesShouldBeRendered()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithPrivateProperties)});
+            var generated = generator.Generate(new[] { typeof(TypeWithPrivateProperties) });
 
             this.Assent(generated.Types);
         }
@@ -64,7 +63,7 @@ namespace Typescript.Tests.Simple
         {
             public int IntProp { get; }
         }
-        
+
         class TypeWithCustomValueTypeProp
         {
             public TestStruct TestStructProp { get; set; }
@@ -74,7 +73,7 @@ namespace Typescript.Tests.Simple
         public void Generator_TypeWithCustomValueTypeProp_ShouldRenderCustomTypeSeparately()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithCustomValueTypeProp)});
+            var generated = generator.Generate(new[] { typeof(TypeWithCustomValueTypeProp) });
 
             this.Assent(generated.Types);
         }
@@ -93,11 +92,11 @@ namespace Typescript.Tests.Simple
         {
             var generator = TypeScriptGenerator.CreateDefault()
                 .WithTypeMembers(MemberType.PropertiesAndFields);
-            var generated = generator.Generate(new[] {typeof(TestTypeWithFields)});
+            var generated = generator.Generate(new[] { typeof(TestTypeWithFields) });
 
             this.Assent(generated.Types);
         }
-        
+
         class TestTypeWithFieldsAndProps
         {
 #pragma warning disable 414
@@ -111,7 +110,17 @@ namespace Typescript.Tests.Simple
         public void Generator_TypeWithFieldsAndPropsButSetToPropsOnly_ShouldOnlyRenderProps()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TestTypeWithFieldsAndProps)});
+            var generated = generator.Generate(new[] { typeof(TestTypeWithFieldsAndProps) });
+
+            this.Assent(generated.Types);
+        }
+
+        [Fact]
+        public void Generator_UsingModule_ShouldRenderESModule()
+        {
+            var generator = TypeScriptGenerator.CreateDefault()
+                .WithModule("Api");
+            var generated = generator.Generate(new []{ typeof(TestTypeWithFields) });
 
             this.Assent(generated.Types);
         }

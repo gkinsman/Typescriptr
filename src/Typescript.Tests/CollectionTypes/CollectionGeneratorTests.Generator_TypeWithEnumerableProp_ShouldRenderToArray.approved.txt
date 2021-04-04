@@ -1,5 +1,4 @@
-declare namespace Api {
-  interface TypeWithEnumerableProp {
-    enumerableProp: number[];
-  }
+export interface TypeWithEnumerableProp {
+  enumerableProp: number[];
 }
+
