@@ -12,7 +12,7 @@ environment:
   GITHUB_TOKEN:
     secure: NYgF0pqjIWQpWVYnS/1ek7ijVXKgfJ+GDFtdX9AbiuzCMYQAi/LGHa0jwQp+W23i
   NUGET_TOKEN:
-    secure: zilHXV7X2DgAETV+q1eE9FUM8RwOoQOdFP/EFHm2KO+tByu5aLZZ1CCREfjYUooo
+    secure: Ky8y+qHkS7qbApIEp4A8wdr7TEgNh32+EipYL6Y5bXQnqfhi+glE5fCLu2LtjJLI
   AssentNonInteractive: true
 
 install:
