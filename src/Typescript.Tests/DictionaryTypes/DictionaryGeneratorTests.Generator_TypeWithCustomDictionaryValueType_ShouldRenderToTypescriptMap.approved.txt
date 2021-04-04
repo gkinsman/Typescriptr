@@ -1,7 +1,6 @@
-declare module 'Api' {
-  export interface TypeWithCustomDictionaryProp {
-    dictProp: { [key: string]: number };
-  }
+export interface TypeWithCustomDictionaryProp {
+  dictProp: { [key: string]: number };
 }
+
 
 ---

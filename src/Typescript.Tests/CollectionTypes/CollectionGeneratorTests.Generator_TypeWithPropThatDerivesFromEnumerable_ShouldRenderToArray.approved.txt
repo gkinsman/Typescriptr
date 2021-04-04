@@ -1,5 +1,4 @@
-declare module 'Api' {
-  export interface TypeWithPropThatInheritsFromIEnumerable {
-    derivedFromList: number[];
-  }
+export interface TypeWithPropThatInheritsFromIEnumerable {
+  derivedFromList: number[];
 }
+

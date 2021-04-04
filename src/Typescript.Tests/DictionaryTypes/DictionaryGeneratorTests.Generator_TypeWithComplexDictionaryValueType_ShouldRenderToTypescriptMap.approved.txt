@@ -1,8 +1,7 @@
-declare module 'Api' {
-  export interface TypeWithComplexDictionaryValue {
-    dictProp: { [key: number]: ComplexType };
-  }
-  export interface ComplexType {
-    aProp: string;
-  }
+export interface TypeWithComplexDictionaryValue {
+  dictProp: { [key: number]: ComplexType };
 }
+export interface ComplexType {
+  aProp: string;
+}
+

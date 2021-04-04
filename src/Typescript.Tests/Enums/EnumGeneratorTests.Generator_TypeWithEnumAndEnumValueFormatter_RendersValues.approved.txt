@@ -1,8 +1,7 @@
-declare module 'Api' {
-  export interface TypeWithValuedEnum {
-    enumWithValueProp: 'First' | 'Second' | 'Third';
-  }
+export interface TypeWithValuedEnum {
+  enumWithValueProp: 'First' | 'Second' | 'Third';
 }
+
 
 ---
 enum EnumType {

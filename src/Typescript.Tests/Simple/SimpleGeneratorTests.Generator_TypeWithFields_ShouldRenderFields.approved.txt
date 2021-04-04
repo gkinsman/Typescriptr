@@ -1,6 +1,5 @@
-declare module 'Api' {
-  export interface TestTypeWithFields {
-    stringField: string;
-    intField: number;
-  }
+export interface TestTypeWithFields {
+  stringField: string;
+  intField: number;
 }
+

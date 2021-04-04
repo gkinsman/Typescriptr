@@ -1,11 +1,10 @@
-declare module 'Api' {
-  export interface TypeTwoWithEnum {
-    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
-  }
-  export interface TypeOneWithEnum {
-    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
-  }
+export interface TypeTwoWithEnum {
+  anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
+export interface TypeOneWithEnum {
+  anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
+}
+
 
 ---
 enum SharedEnumType {

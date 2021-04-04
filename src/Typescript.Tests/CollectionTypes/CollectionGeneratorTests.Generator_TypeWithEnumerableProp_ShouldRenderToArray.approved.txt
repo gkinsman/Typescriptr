@@ -1,5 +1,4 @@
-declare module 'Api' {
-  export interface TypeWithEnumerableProp {
-    enumerableProp: number[];
-  }
+export interface TypeWithEnumerableProp {
+  enumerableProp: number[];
 }
+

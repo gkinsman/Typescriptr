@@ -1,5 +1,4 @@
-declare module 'Api' {
-  export interface TypeWithPrivateProperties {
-    publicGuidProp: string;
-  }
+export interface TypeWithPrivateProperties {
+  publicGuidProp: string;
 }
+

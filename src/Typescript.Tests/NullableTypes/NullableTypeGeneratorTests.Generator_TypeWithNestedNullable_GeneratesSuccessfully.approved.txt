@@ -1,9 +1,8 @@
-declare module 'Api' {
-  export interface TypeWithNestedNullable {
-    nestedThing: NestedType;
-  }
-  export interface NestedType {
-    nullableInt: number | null;
-    nullableDateTime: string;
-  }
+export interface TypeWithNestedNullable {
+  nestedThing: NestedType;
 }
+export interface NestedType {
+  nullableInt: number | null;
+  nullableDateTime: string;
+}
+

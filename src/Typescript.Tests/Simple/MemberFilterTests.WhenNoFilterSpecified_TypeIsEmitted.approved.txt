@@ -1,8 +1,7 @@
-declare module 'Api' {
-  export interface SimpleClass {
-    serializedType: number;
-    ignoredType: number;
-  }
+export interface SimpleClass {
+  serializedType: number;
+  ignoredType: number;
 }
+
 
 ---

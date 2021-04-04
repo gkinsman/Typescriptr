@@ -70,7 +70,6 @@ namespace Typescriptr
             .WithTypeMembers(MemberType.PropertiesOnly)
             .WithDictionaryPropertyFormatter(DictionaryPropertyFormatter.KeyValueFormatter)
             .WithCollectionPropertyFormatter(CollectionPropertyFormatter.Format)
-            .WithNamespace("Api")
             .WithCamelCasedPropertyNames();
 
         public TypeScriptGenerator WithTypeMembers(MemberType memberTypes)
@@ -97,9 +96,9 @@ namespace Typescriptr
             return this;
         }
 
-        public TypeScriptGenerator WithNamespace(string @namespace)
+        public TypeScriptGenerator WithModule(string module)
         {
-            _namespace = @namespace;
+            _module = module;
             return this;
         }
 
@@ -136,7 +135,7 @@ namespace Typescriptr
         private readonly HashSet<Type> _typesGenerated = new HashSet<Type>();
         private readonly HashSet<string> _enumNames = new HashSet<string>();
         private readonly Stack<Type> _typeStack = new Stack<Type>();
-        private string _namespace;
+        private string _module;
         
 
         public GenerationResult Generate(IEnumerable<Type> types)
@@ -155,10 +154,10 @@ namespace Typescriptr
                 else RenderType(typeBuilder, type);
             }
 
-            if (!string.IsNullOrEmpty(_namespace))
+            if (!string.IsNullOrEmpty(_module))
             {
                 typeBuilder = new StringBuilder(typeBuilder.ToString().IndentEachLine(TabString));
-                typeBuilder.PrependLine($"declare module '{_namespace}' {{");
+                typeBuilder.PrependLine($"declare module '{_module}' {{");
                 typeBuilder.AppendLine("}");
             }
             else

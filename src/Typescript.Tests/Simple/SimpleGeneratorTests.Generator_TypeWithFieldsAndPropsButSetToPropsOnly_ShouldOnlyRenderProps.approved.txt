@@ -1,5 +1,4 @@
-declare module 'Api' {
-  export interface TestTypeWithFieldsAndProps {
-    stringProp: string;
-  }
+export interface TestTypeWithFieldsAndProps {
+  stringProp: string;
 }
+

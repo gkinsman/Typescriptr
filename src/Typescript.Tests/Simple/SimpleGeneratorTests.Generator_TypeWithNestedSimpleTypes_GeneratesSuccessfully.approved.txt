@@ -1,11 +1,10 @@
-declare module 'Api' {
-  export interface TypeWithNestedType {
-    simpleType: SimpleTypesOnly;
-  }
-  export interface SimpleTypesOnly {
-    intType: number;
-    longType: number;
-    stringType: string;
-    decimalType: number;
-  }
+export interface TypeWithNestedType {
+  simpleType: SimpleTypesOnly;
 }
+export interface SimpleTypesOnly {
+  intType: number;
+  longType: number;
+  stringType: string;
+  decimalType: number;
+}
+

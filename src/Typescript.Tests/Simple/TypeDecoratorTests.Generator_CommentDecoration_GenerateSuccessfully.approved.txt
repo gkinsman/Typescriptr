@@ -1,20 +1,19 @@
-declare module 'Api' {
-  // Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithEnum
-  export interface TypeWithEnum {
-    anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
-  }
-  // Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithNestedType
-  export interface TypeWithNestedType {
-    simpleType: SimpleTypesOnly;
-  }
-  // Source: Typescript.Tests.Simple.TypeDecoratorTests+SimpleTypesOnly
-  export interface SimpleTypesOnly {
-    intType: number;
-    longType: number;
-    stringType: string;
-    decimalType: number;
-  }
+// Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithEnum
+export interface TypeWithEnum {
+  anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
+// Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithNestedType
+export interface TypeWithNestedType {
+  simpleType: SimpleTypesOnly;
+}
+// Source: Typescript.Tests.Simple.TypeDecoratorTests+SimpleTypesOnly
+export interface SimpleTypesOnly {
+  intType: number;
+  longType: number;
+  stringType: string;
+  decimalType: number;
+}
+
 
 ---
 // Source: Typescript.Tests.Simple.TypeDecoratorTests+EnumType

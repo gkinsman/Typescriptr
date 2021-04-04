@@ -1,8 +1,7 @@
-declare module 'Api' {
-  export interface TypeWithNullableEnum {
-    nullableEnumProp: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum' | null;
-  }
+export interface TypeWithNullableEnum {
+  nullableEnumProp: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum' | null;
 }
+
 
 ---
 enum EnumType {

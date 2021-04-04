@@ -1,5 +1,4 @@
-declare module 'Api' {
-  export interface TypeWithArrayProp {
-    arrayProp: string[];
-  }
+export interface TypeWithArrayProp {
+  arrayProp: string[];
 }
+
