@@ -1,0 +1,9 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/src"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 99
