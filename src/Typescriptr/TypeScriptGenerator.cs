@@ -14,9 +14,9 @@ namespace Typescriptr
 
     public delegate string FormatEnumProperty(Type t, QuoteStyle quoteStyle);
 
-    public delegate string FormatDictionaryProperty(Type t, Func<Type, string> typeNameRenderer);
+    public delegate string FormatDictionaryProperty(Type t, NullabilityInfo nullability, Func<Type, NullabilityInfo, string> typeNameRenderer);
 
-    public delegate string FormatCollectionProperty(Type t, Func<Type, string> typeNameRenderer);
+    public delegate string FormatCollectionProperty(Type t, NullabilityInfo nullability, Func<Type, NullabilityInfo, string> typeNameRenderer);
 
     public delegate bool MemberFilter(MemberInfo memberInfo);
 
@@ -135,6 +135,7 @@ namespace Typescriptr
         private readonly HashSet<Type> _typesGenerated = new HashSet<Type>();
         private readonly HashSet<string> _enumNames = new HashSet<string>();
         private readonly Stack<Type> _typeStack = new Stack<Type>();
+        private readonly NullabilityInfoContext _nullabilityContext = new NullabilityInfoContext();
         private string _module;
         
 
@@ -212,12 +213,19 @@ namespace Typescriptr
             foreach (var memberInfo in members)
             {
                 Type memberType = null;
+                NullabilityInfo memberNullability = null;
                 if (memberInfo is PropertyInfo p)
+                {
                     memberType = p.PropertyType;
+                    memberNullability = _nullabilityContext.Create(p);
+                }
                 else if (memberInfo is FieldInfo f)
+                {
                     memberType = f.FieldType;
+                    memberNullability = _nullabilityContext.Create(f);
+                }
                 if (memberType == null) throw new InvalidOperationException();
-                
+
                 var memberName = memberInfo.Name;
                 if (_useCamelCasePropertyNames)
                     memberName = memberName.ToCamelCase();
@@ -226,7 +234,7 @@ namespace Typescriptr
 
                     if (_memberFilter == null || _memberFilter(memberInfo))
                     {
-                        RenderProperty(builder, memberType, memberName);
+                        RenderProperty(builder, memberType, memberNullability, memberName);
                     }
                 }
             }
@@ -261,24 +269,29 @@ namespace Typescriptr
             }
         }
 
-        private string TypeNameRenderer(Type type)
+        private string TypeNameRenderer(Type type, NullabilityInfo nullability)
         {
-            Func<string, string> decorate = str => str;
+            // Nullable value types (int?) are detected from the runtime type; nullable reference
+            // types (string?) only exist in metadata, so we read them from the member's NullabilityInfo.
+            var underlyingValueType = Nullable.GetUnderlyingType(type);
+            var isNullable = underlyingValueType != null
+                || (nullability != null
+                    && !type.IsValueType
+                    && nullability.ReadState == NullabilityState.Nullable);
 
-            if (Nullable.GetUnderlyingType(type) != null)
-            {
-                type = Nullable.GetUnderlyingType(type);
-                decorate = str => str + " | null";
-            }
+            if (underlyingValueType != null)
+                type = underlyingValueType;
+
+            Func<string, string> decorate = isNullable ? str => str + " | null" : str => str;
 
             if (_propTypeMap.ContainsKey(type))
                 return decorate(_propTypeMap[type]);
 
-            if (type.IsClosedTypeOf(typeof(IDictionary<,>)))
-                return decorate(_dictionaryPropertyFormatter(type, TypeNameRenderer));
+            if (type.IsClosedTypeOf(typeof(IDictionary<,>)) || type.IsClosedTypeOf(typeof(IReadOnlyDictionary<,>)))
+                return decorate(_dictionaryPropertyFormatter(type, nullability, TypeNameRenderer));
 
             if (typeof(IEnumerable).IsAssignableFrom(type))
-                return decorate(_collectionPropertyFormatter(type, TypeNameRenderer));
+                return decorate(_collectionPropertyFormatter(type, nullability, TypeNameRenderer));
 
             var typeName = type.Name;
             if (typeof(Enum).IsAssignableFrom(type))
@@ -289,9 +302,9 @@ namespace Typescriptr
             return decorate(typeName);
         }
 
-        private void RenderProperty(StringBuilder builder, Type propType, string propName)
+        private void RenderProperty(StringBuilder builder, Type propType, NullabilityInfo nullability, string propName)
         {
-            var propTypeName = TypeNameRenderer(propType);
+            var propTypeName = TypeNameRenderer(propType, nullability);
             builder.AppendLine($"{TabString}{propName}: {propTypeName};");
         }
 

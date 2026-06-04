@@ -1,0 +1,6 @@
+export interface TypeWithNullableDictionaryValue {
+  map: { [key: string]: ReferenceType | null };
+}
+export interface ReferenceType {
+}
+

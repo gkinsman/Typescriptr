@@ -2,9 +2,8 @@
 
     <PropertyGroup>
         <Configurations>Debug;ReleaseWindows;ReleaseLinux</Configurations>
-        <TargetFramework Condition="'$(Configuration)' == 'Debug'">netstandard2.0</TargetFramework>
-        <TargetFrameworks Condition="'$(Configuration)'=='ReleaseWindows'">net461;netstandard2.0</TargetFrameworks>
-        <TargetFramework Condition="'$(Configuration)'=='ReleaseLinux'">netstandard2.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 

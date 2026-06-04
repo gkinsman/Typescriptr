@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using Assent;
 using Typescriptr;
@@ -13,6 +14,7 @@ namespace Typescript.Tests.NullableTypes
             public Guid? NullableGuid { get; set; }
         }
 
+        
         [Fact]
         public void Generator_TypeWithNullable_GeneratesSuccessfully()
         {
@@ -30,7 +32,7 @@ namespace Typescript.Tests.NullableTypes
                 public DateTime NullableDateTime { get; set; }
             }
 
-            public NestedType NestedThing { get; set; }
+            public NestedType NestedThing { get; set; } = null!;
         }
 
         [Fact]
@@ -38,6 +40,50 @@ namespace Typescript.Tests.NullableTypes
         {
             var generator = TypeScriptGenerator.CreateDefault();
             var generated = generator.Generate(new[] {typeof(TypeWithNestedNullable)});
+
+            this.Assent(generated.Types);
+        }
+
+        class ReferenceType {}
+
+        class TypeWithNullableReferenceType
+        {
+            public ReferenceType? ReferenceType { get; set; }
+        }
+
+        [Fact]
+        public void Generator_TypeWithNullableReferenceType_GeneratesSuccessfully()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeWithNullableReferenceType)});
+
+            this.Assent(generated.Types);
+        }
+
+        class TypeWithNullableInCollection
+        {
+            public System.Collections.Generic.List<string?> Tags { get; set; } = null!;
+        }
+
+        [Fact]
+        public void Generator_TypeWithNullableInCollection_GeneratesSuccessfully()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeWithNullableInCollection)});
+
+            this.Assent(generated.Types);
+        }
+
+        class TypeWithNullableDictionaryValue
+        {
+            public System.Collections.Generic.IDictionary<string, ReferenceType?> Map { get; set; } = null!;
+        }
+
+        [Fact]
+        public void Generator_TypeWithNullableDictionaryValue_GeneratesSuccessfully()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] {typeof(TypeWithNullableDictionaryValue)});
 
             this.Assent(generated.Types);
         }
