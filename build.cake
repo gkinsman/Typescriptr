@@ -1,5 +1,5 @@
-#addin "nuget:https://api.nuget.org/v3/index.json?package=Cake.Figlet&version=1.1.0"
-#addin "nuget:https://api.nuget.org/v3/index.json?package=Cake.Npx&version=1.3.0"
+#addin "nuget:https://api.nuget.org/v3/index.json?package=Cake.Figlet&version=2.0.1"
+#addin "nuget:https://api.nuget.org/v3/index.json?package=Cake.Npx&version=1.7.0"
 
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
@@ -109,10 +109,10 @@ Task("Build_solution")
     {
         Information("Building solution {0} v{1}", solution.GetFilenameWithoutExtension(), buildContext.ReleaseVersion);
  
-        DotNetCoreBuild(solution.FullPath, new DotNetCoreBuildSettings()
+        DotNetBuild(solution.FullPath, new DotNetBuildSettings()
         {
             Configuration = buildContext.Configuration,
-            MSBuildSettings = new DotNetCoreMSBuildSettings()
+            MSBuildSettings = new DotNetMSBuildSettings()
                 .SetVersion(buildContext.ReleaseVersion)
                 .SetMaxCpuCount(buildContext.UseAsManyProcessesAsThereAreAvailableCPUs)
         });
@@ -126,7 +126,7 @@ Task("Run_tests")
     {
         Information("Testing project {0}", testProject.GetFilenameWithoutExtension());
 
-        DotNetCoreTest(testProject.FullPath, new DotNetCoreTestSettings
+        DotNetTest(testProject.FullPath, new DotNetTestSettings
         {
             Configuration = buildContext.Configuration,
             NoBuild = true,
@@ -142,12 +142,12 @@ Task("Package")
     {
         Information("Packaging project {0} v{1}", project.GetFilenameWithoutExtension(), buildContext.ReleaseVersion);
 
-        DotNetCorePack(project.FullPath, new DotNetCorePackSettings {
+        DotNetPack(project.FullPath, new DotNetPackSettings {
             Configuration = buildContext.Configuration,
             OutputDirectory = buildContext.ArtifactsDir,
             NoBuild = true,
             NoRestore = true,
-            MSBuildSettings = new DotNetCoreMSBuildSettings()
+            MSBuildSettings = new DotNetMSBuildSettings()
                 .SetVersion(buildContext.ReleaseVersion)
         });
     }
