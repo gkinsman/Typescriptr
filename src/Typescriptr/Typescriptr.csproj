@@ -4,6 +4,7 @@
         <Configurations>Debug;Release</Configurations>
         <TargetFramework>net8.0</TargetFramework>
         <Platforms>AnyCPU</Platforms>
+        <MinVerTagPrefix>v</MinVerTagPrefix>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -24,6 +25,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>
