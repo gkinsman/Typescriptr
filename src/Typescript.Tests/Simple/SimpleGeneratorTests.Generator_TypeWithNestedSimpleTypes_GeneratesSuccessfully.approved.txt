@@ -1,10 +1,10 @@
-export interface TypeWithNestedType {
-  simpleType: SimpleTypesOnly;
-}
 export interface SimpleTypesOnly {
+  decimalType: number;
   intType: number;
   longType: number;
   stringType: string;
-  decimalType: number;
+}
+export interface TypeWithNestedType {
+  simpleType: SimpleTypesOnly;
 }
 

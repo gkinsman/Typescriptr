@@ -1,3 +1,10 @@
+// Source: Typescript.Tests.Simple.TypeDecoratorTests+SimpleTypesOnly
+export interface SimpleTypesOnly {
+  decimalType: number;
+  intType: number;
+  longType: number;
+  stringType: string;
+}
 // Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithEnum
 export interface TypeWithEnum {
   anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
@@ -5,13 +12,6 @@ export interface TypeWithEnum {
 // Source: Typescript.Tests.Simple.TypeDecoratorTests+TypeWithNestedType
 export interface TypeWithNestedType {
   simpleType: SimpleTypesOnly;
-}
-// Source: Typescript.Tests.Simple.TypeDecoratorTests+SimpleTypesOnly
-export interface SimpleTypesOnly {
-  intType: number;
-  longType: number;
-  stringType: string;
-  decimalType: number;
 }
 
 
