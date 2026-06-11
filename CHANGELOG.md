@@ -5,6 +5,7 @@
 
 * Support nullable reference types: members render as `T | null` based on their nullable reference type annotations ([366739a](https://github.com/gkinsman/Typescriptr/commit/366739a))
 * Deterministic output: members are emitted in alphabetical order and types are grouped by namespace, so generated TypeScript is stable across runs and platforms ([92c5aca](https://github.com/gkinsman/Typescriptr/commit/92c5aca))
+* Support `DateOnly` and `TimeOnly`: both render as `string`, matching their System.Text.Json serialization ([a97b64f](https://github.com/gkinsman/Typescriptr/commit/a97b64f))
 
 
 ### BREAKING CHANGES
