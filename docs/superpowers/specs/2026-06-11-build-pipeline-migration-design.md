@@ -15,6 +15,7 @@ tighter control over versioning.
 | Versioning     | semantic-release (commit-derived)    | MinVer (git-tag-derived)     |
 | Release trigger| Auto on every `master` commit        | Push a `v*` git tag          |
 | Changelog      | semantic-release auto-generated      | Manual `CHANGELOG.md`        |
+| NuGet auth     | Long-lived `NUGET_TOKEN` secret      | Trusted Publishing (OIDC)    |
 
 The core philosophy shift: **nothing versions or releases unless you tag.** The
 git tag is the single source of truth.
@@ -28,9 +29,12 @@ git tag is the single source of truth.
 3. **Changelog:** maintained manually in `CHANGELOG.md` (authored by the
    maintainer). CI extracts the matching version section for the release body.
 4. **Build configs:** collapse `Debug;ReleaseWindows;ReleaseLinux` →
-   `Debug;Release`. Build/test/pack/publish on `ubuntu-latest` only.
-5. **`gh release` step** lives in the workflow (where `gh` auth is native), not
-   in the build program.
+   `Debug;Release`. Build/test/pack on `ubuntu-latest` only.
+5. **NuGet auth:** Trusted Publishing via OIDC (`NuGet/login@v1`) — no
+   long-lived `NUGET_TOKEN`. A short-lived API key is minted per release.
+6. **`dotnet nuget push` and `gh release`** live in the release workflow (where
+   OIDC and `gh` auth are CI-native), not in the build program. The build
+   program tops out at `pack`.
 
 ## 1. Versioning — MinVer
 
@@ -63,9 +67,12 @@ Targets:
 | `build`         | `restore`  | `dotnet build -c Release --no-restore`                                 |
 | `test`          | `build`    | `dotnet test -c Release --no-build`                                    |
 | `pack`          | `test`     | `dotnet pack src/Typescriptr -c Release -o artifacts` (MinVer version) |
-| `publish`       | `pack`     | `dotnet nuget push artifacts/*.nupkg` using `NUGET_TOKEN` env          |
 | `release-notes` | —          | extract current version's section from `CHANGELOG.md` → `artifacts/release-notes.md` |
 | `default`       | —          | `test`                                                                 |
+
+The NuGet push is intentionally **not** a build target — it requires an OIDC
+key that only exists inside the release workflow. The build program is fully
+runnable locally up to `pack`.
 
 Optional convenience shim: a thin `build.ps1` / `build.sh` that just calls
 `dotnet run --project build`.
@@ -86,13 +93,21 @@ OS-conditional `Optimize` block (Release optimizes by default).
 
 ### `.github/workflows/release.yml` — on push of tag `v*`
 
+Job needs `permissions: id-token: write` (for OIDC) and `contents: write` (for
+the GitHub release).
+
 - `actions/checkout` with `fetch-depth: 0`
 - `actions/setup-dotnet` (net8)
-- `dotnet run --project build -- publish` (build → test → pack tagged version →
-  NuGet push; `NUGET_TOKEN` from repo secrets)
+- `dotnet run --project build -- pack` (build → test → pack the tagged version)
 - `dotnet run --project build -- release-notes`
+- `NuGet/login@v1` (id: `login`) with `user: ${{ secrets.NUGET_USER }}` — mints a
+  short-lived API key just before publishing
+- `dotnet nuget push artifacts/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json`
 - `gh release create "$TAG" --notes-file artifacts/release-notes.md artifacts/*.nupkg`
   (uses built-in `GITHUB_TOKEN`)
+
+> The OIDC key expires in ~1 hour and is single-use, so `NuGet/login@v1` must run
+> immediately before the push — not earlier in the job.
 
 ## 5. Changelog
 
@@ -112,8 +127,18 @@ section whose heading matches the tag's version and writes it to
 
 ## 7. One-time / manual setup
 
-- Add `NUGET_TOKEN` as a GitHub repo secret (the old one was AppVeyor-encrypted
-  and must be re-issued for GitHub).
+- **Create a Trusted Publishing policy on nuget.org** (Username → Trusted
+  Publishing → add policy):
+  - Repository Owner: `gkinsman`
+  - Repository: `Typescriptr`
+  - Workflow File: `release.yml` (filename only, no `.github/workflows/` path)
+  - Environment: leave empty unless we add `environment:` to the release job
+- Add `NUGET_USER` as a GitHub repo secret = your nuget.org **profile name**
+  (not your email). Used as the `user` input to `NuGet/login@v1`.
+- No long-lived `NUGET_TOKEN` is needed — it is removed entirely.
+- `Typescriptr` is a public repo, so the policy should activate permanently on
+  the first successful publish (the 7-day pending window mainly affects private
+  repos).
 - No MinVer bootstrapping needed — `v2.0.0` already exists as the baseline.
 
 ## 8. Rollout & validation
