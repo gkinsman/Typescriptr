@@ -3,7 +3,6 @@
     <PropertyGroup>
         <Configurations>Debug;Release</Configurations>
         <TargetFramework>net8.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
