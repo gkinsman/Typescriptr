@@ -1,7 +1,7 @@
-export interface TypeWithCustomValueTypeProp {
-  testStructProp: TestStruct;
-}
 export interface TestStruct {
   intProp: number;
+}
+export interface TypeWithCustomValueTypeProp {
+  testStructProp: TestStruct;
 }
 

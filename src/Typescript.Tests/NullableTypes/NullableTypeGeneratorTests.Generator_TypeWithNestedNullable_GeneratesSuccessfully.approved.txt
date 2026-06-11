@@ -1,8 +1,8 @@
+export interface NestedType {
+  nullableDateTime: string;
+  nullableInt: number | null;
+}
 export interface TypeWithNestedNullable {
   nestedThing: NestedType;
-}
-export interface NestedType {
-  nullableInt: number | null;
-  nullableDateTime: string;
 }
 

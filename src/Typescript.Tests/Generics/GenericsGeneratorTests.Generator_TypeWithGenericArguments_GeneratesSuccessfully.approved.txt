@@ -1,5 +1,5 @@
-export interface TypeWithGenericArguments extends BaseType<Alpha, Beta> {
-}
 export interface BaseType<T1, T2> {
+}
+export interface TypeWithGenericArguments extends BaseType<Alpha, Beta> {
 }
 

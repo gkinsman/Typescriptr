@@ -16,16 +16,45 @@ namespace Typescript.Tests.DictionaryTypes
         public void Generator_TypeWithDirectDictionaryProp_ShouldRenderToTypescriptMap()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithDictionaryProp)});
+            var generated = generator.Generate(new[] { typeof(TypeWithDictionaryProp) });
 
             this.Assent(generated.Types);
         }
+
+        class TypeWithIDictionaryProp
+        {
+            public IDictionary<string, int> DictProp { get; set; }
+        }
+
+        [Fact]
+        public void Generator_TypeWithIDictionaryProp_ShouldRenderToTypescriptMap()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] { typeof(TypeWithIDictionaryProp) });
+
+            this.Assent(generated.Types);
+        }
+
+        class TypeWithIReadOnlyDictionaryProp
+        {
+            public IReadOnlyDictionary<string, int> DictProp { get; set; }
+        }
+
+        [Fact]
+        public void Generator_TypeWithIReadOnlyDictionaryProp_ShouldRenderToTypescriptMap()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] { typeof(TypeWithIReadOnlyDictionaryProp) });
+
+            this.Assent(generated.Types);
+        }
+
 
         class ComplexType
         {
             public string AProp { get; set; }
         }
-        
+
         class TypeWithComplexDictionaryValue
         {
             public Dictionary<int, ComplexType> DictProp { get; set; }
@@ -35,7 +64,7 @@ namespace Typescript.Tests.DictionaryTypes
         public void Generator_TypeWithComplexDictionaryValueType_ShouldRenderToTypescriptMap()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithComplexDictionaryValue)});
+            var generated = generator.Generate(new[] { typeof(TypeWithComplexDictionaryValue) });
 
             this.Assent(generated.Types);
         }
@@ -48,12 +77,12 @@ namespace Typescript.Tests.DictionaryTypes
         interface ICustomDictionary : IDictionary<string, int>
         {
         }
-        
+
         [Fact]
         public void Generator_TypeWithCustomDictionaryValueType_ShouldRenderToTypescriptMap()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithCustomDictionaryProp)});
+            var generated = generator.Generate(new[] { typeof(TypeWithCustomDictionaryProp) });
 
             this.Assent(generated.JoinTypesAndEnums());
         }
@@ -69,12 +98,12 @@ namespace Typescript.Tests.DictionaryTypes
         {
             public Dictionary<string, TestEnum> EnumDictionary { get; set; }
         }
-        
+
         [Fact]
         public void Generator_TypeWithEnumValueType_ShouldRenderToTypescriptMap()
         {
             var generator = TypeScriptGenerator.CreateDefault();
-            var generated = generator.Generate(new[] {typeof(TypeWithDictionaryAndEnumPropAsValue)});
+            var generated = generator.Generate(new[] { typeof(TypeWithDictionaryAndEnumPropAsValue) });
 
             this.Assent(generated.JoinTypesAndEnums());
         }
