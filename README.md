@@ -1,7 +1,7 @@
 # Typescriptr
 [![CI](https://github.com/gkinsman/Typescriptr/actions/workflows/ci.yml/badge.svg)](https://github.com/gkinsman/Typescriptr/actions/workflows/ci.yml)
 [![nuget](https://img.shields.io/nuget/v/Typescriptr.svg)](https://www.nuget.org/packages/Typescriptr/)
-[![github license](https://img.shields.io/github/license/gkinsman/Typescriptr.svg)](https://github.com/gkinsman/Typescriptr/blob/master/LICENSE)
+[![github license](https://img.shields.io/github/license/gkinsman/Typescriptr.svg)](https://github.com/gkinsman/Typescriptr/blob/main/LICENSE)
 
 
 ### A C# to TypeScript converter that focuses on ease of use and client side awesomeness.
@@ -106,7 +106,7 @@ enum EnumType {
 ```
 
 #### Notes
-- It is possible to override this behaviour, and to provide custom formatters for enum properties and values. A numeric value formatter is [built in](https://github.com/gkinsman/Typescriptr/blob/master/src/Typescriptr/Formatters/EnumFormatter.cs), however there is no support for how to handle numeric values on properties, as referencing enums from a type definition file is error-prone.
+- It is possible to override this behaviour, and to provide custom formatters for enum properties and values. A numeric value formatter is [built in](https://github.com/gkinsman/Typescriptr/blob/main/src/Typescriptr/Formatters/EnumFormatter.cs), however there is no support for how to handle numeric values on properties, as referencing enums from a type definition file is error-prone.
 
 ## Dictionaries
 
@@ -114,7 +114,7 @@ Any object properties assignable to IDictionary will be converted into TypeScrip
 
 #### Notes
 - Keys must be resolvable to either TypeScript `number` or `string` (as those are the only allowed types for TS indexes). Custom type resolvers can be added using `WithPropertyTypeFormatter`.
-- Any type passed to the generator that is assignable to IDictionary will be rendered poorly, as it wouldn't make much sense. If you must, you can provide a custom type formatter using [`WithPropertyTypeFormatter`].(https://github.com/gkinsman/Typescriptr/blob/master/src/Typescriptr/TypeScriptGenerator.cs#L56)
+- Any type passed to the generator that is assignable to IDictionary will be rendered poorly, as it wouldn't make much sense. If you must, you can provide a custom type formatter using [`WithPropertyTypeFormatter`].(https://github.com/gkinsman/Typescriptr/blob/main/src/Typescriptr/TypeScriptGenerator.cs#L56)
 - Non-generic IDictionary isn't supported
 
 ```csharp
