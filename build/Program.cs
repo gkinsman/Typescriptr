@@ -47,29 +47,49 @@ static string ResolveVersion()
 
     var nupkg = Directory.GetFiles("artifacts", "Typescriptr.*.nupkg")
         .Select(Path.GetFileName)
-        .First(f => f is not null && !f.EndsWith(".snupkg"))!;
-    return Regex.Match(nupkg, @"^Typescriptr\.(.+)\.nupkg$").Groups[1].Value;
+        .FirstOrDefault(f => f is not null && !f.EndsWith(".snupkg"))
+        ?? throw new InvalidOperationException(
+            "No Typescriptr.*.nupkg found in artifacts/. Run the 'pack' target first.");
+
+    var match = Regex.Match(nupkg, @"^Typescriptr\.(.+)\.nupkg$");
+    if (!match.Success)
+        throw new InvalidOperationException($"Could not parse a version from package filename '{nupkg}'.");
+
+    return match.Groups[1].Value;
 }
 
 // Finds the changelog section whose header contains the version (prerelease
 // suffixes are matched against the base version, e.g. 3.0.0-rc.1 -> 3.0.0) and
-// returns the body up to the next header.
+// returns the body up to the next header AT THE SAME OR A HIGHER level. Deeper
+// sub-headers (e.g. "### BREAKING CHANGES") are part of the section body.
 static string ChangelogSection(string path, string version)
 {
     var baseVersion = version.Split('-')[0];
     var lines = File.ReadAllLines(path);
-    var header = new Regex($@"^#{{1,6}}\s+\[?{Regex.Escape(baseVersion)}(\]|\s|\(|$)");
-    var anyHeader = new Regex(@"^#{1,6}\s");
+    var header = new Regex($@"^(#{{1,6}})\s+\[?{Regex.Escape(baseVersion)}(\]|\s|\(|$)");
 
-    var start = Array.FindIndex(lines, header.IsMatch);
+    var start = -1;
+    var level = 0;
+    for (var i = 0; i < lines.Length; i++)
+    {
+        var m = header.Match(lines[i]);
+        if (m.Success)
+        {
+            start = i;
+            level = m.Groups[1].Value.Length;
+            break;
+        }
+    }
+
     if (start < 0)
         throw new InvalidOperationException(
             $"No CHANGELOG.md section found for version {baseVersion}. Add an entry before tagging.");
 
+    var sectionBoundary = new Regex($@"^#{{1,{level}}}\s");
     var body = new List<string>();
     for (var i = start + 1; i < lines.Length; i++)
     {
-        if (anyHeader.IsMatch(lines[i])) break;
+        if (sectionBoundary.IsMatch(lines[i])) break;
         body.Add(lines[i]);
     }
 
