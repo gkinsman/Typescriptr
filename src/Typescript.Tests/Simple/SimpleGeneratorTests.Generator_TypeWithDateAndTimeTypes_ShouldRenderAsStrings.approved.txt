@@ -1,0 +1,8 @@
+export interface TypeWithDateAndTimeTypes {
+  dateOnlyType: string;
+  dateTimeOffsetType: string;
+  dateTimeType: string;
+  timeOnlyType: string;
+  timeSpanType: string;
+}
+

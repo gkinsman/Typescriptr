@@ -115,6 +115,24 @@ namespace Typescript.Tests.Simple
             this.Assent(generated.Types);
         }
 
+        class TypeWithDateAndTimeTypes
+        {
+            public DateTime DateTimeType { get; set; }
+            public DateTimeOffset DateTimeOffsetType { get; set; }
+            public DateOnly DateOnlyType { get; set; }
+            public TimeOnly TimeOnlyType { get; set; }
+            public TimeSpan TimeSpanType { get; set; }
+        }
+
+        [Fact]
+        public void Generator_TypeWithDateAndTimeTypes_ShouldRenderAsStrings()
+        {
+            var generator = TypeScriptGenerator.CreateDefault();
+            var generated = generator.Generate(new[] { typeof(TypeWithDateAndTimeTypes) });
+
+            this.Assent(generated.Types);
+        }
+
         [Fact]
         public void Generator_UsingModule_ShouldRenderESModule()
         {
