@@ -52,6 +52,8 @@ namespace Typescriptr
             {typeof(string), "string"},
             {typeof(bool), "boolean"},
             {typeof(DateTime), "string"},
+            {typeof(DateOnly), "string"},
+            {typeof(TimeOnly), "string"},
             {typeof(DayOfWeek), "string"},
             {typeof(TimeSpan), "string"},
             {typeof(Guid), "string"},
