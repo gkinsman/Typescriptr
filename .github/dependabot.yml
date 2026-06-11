@@ -7,3 +7,17 @@ updates:
     time: "03:00"
     timezone: Europe/London
   open-pull-requests-limit: 99
+- package-ecosystem: nuget
+  directory: "/build"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 99
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/London
+  open-pull-requests-limit: 99

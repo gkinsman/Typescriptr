@@ -1,17 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
-
+        <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
-
-        <Configurations>Debug;ReleaseWindows;ReleaseLinux</Configurations>
-
+        <Configurations>Debug;Release</Configurations>
         <Platforms>AnyCPU</Platforms>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseLinux' ">
-      <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Typescriptr\Typescriptr.csproj" />
+        <ProjectReference Include="..\Typescriptr\Typescriptr.csproj" />
     </ItemGroup>
 
 </Project>

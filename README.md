@@ -1,9 +1,7 @@
 # Typescriptr
-[![appveyor](https://ci.appveyor.com/api/projects/status/github/gkinsman/Typescriptr?svg=true)](https://ci.appveyor.com/project/gkinsman/Typescriptr)
-[![tests](https://img.shields.io/appveyor/tests/gkinsman/Typescriptr.svg)](https://ci.appveyor.com/project/gkinsman/Typescriptr)
+[![CI](https://github.com/gkinsman/Typescriptr/actions/workflows/ci.yml/badge.svg)](https://github.com/gkinsman/Typescriptr/actions/workflows/ci.yml)
 [![nuget](https://img.shields.io/nuget/v/Typescriptr.svg)](https://www.nuget.org/packages/Typescriptr/)
 [![github license](https://img.shields.io/github/license/gkinsman/Typescriptr.svg)](https://github.com/gkinsman/Typescriptr/blob/master/LICENSE)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 
 ### A C# to TypeScript converter that focuses on ease of use and client side awesomeness.
