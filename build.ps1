@@ -1,9 +1,5 @@
-Param
-(
-    [String]$CakeVersion = "0.30.0",
-    [String]$ToolPath    = [io.path]::combine($PSScriptRoot, "tools"),
-    [String]$ToolExe     = [io.path]::combine($ToolPath, "dotnet-cake")
-)
-
-dotnet tool install --tool-path "$ToolPath" Cake.Tool --version $CakeVersion
-& $ToolExe '--verbosity=verbose'
+#!/usr/bin/env pwsh
+# Convenience shim. Forwards all arguments to the Bullseye build program.
+# Examples:  ./build.ps1            (default target: test)
+#            ./build.ps1 pack
+dotnet run --project build -- @args
