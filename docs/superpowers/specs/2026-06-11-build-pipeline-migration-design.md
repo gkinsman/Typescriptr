@@ -77,11 +77,19 @@ runnable locally up to `pack`.
 Optional convenience shim: a thin `build.ps1` / `build.sh` that just calls
 `dotnet run --project build`.
 
-## 3. Build configs
+## 3. Build configs & target framework
+
+Because this branch is based off `master` (not the net8 feature branch), the
+migration must also **retarget to `net8.0`**:
+
+- Library `Typescriptr.csproj`: `netstandard2.0`/`net461;netstandard2.0` →
+  `net8.0`.
+- Test project: `netcoreapp2.1` → `net8.0`.
 
 Collapse `Debug;ReleaseWindows;ReleaseLinux` → `Debug;Release` across the
 `.csproj` files, `Directory.Build.props`, and the `.sln`. Remove the
-OS-conditional `Optimize` block (Release optimizes by default).
+OS-conditional `Optimize` block (Release optimizes by default). This retarget is
+a breaking change and is part of why everything ships as `v3.0.0` (see §8).
 
 ## 4. CI — GitHub Actions
 
@@ -141,22 +149,38 @@ section whose heading matches the tag's version and writes it to
   repos).
 - No MinVer bootstrapping needed — `v2.0.0` already exists as the baseline.
 
-## 8. Rollout & validation
+## 8. Rollout & assembly — single `v3.0.0` release
 
-Debut the new pipeline on a low-stakes minor release from `master`, then perform
-the real major once the pipeline is trusted.
+**The earlier v2.1.0 "smoke test from master" plan is dropped.** `master`
+multi-targets `netstandard2.0`/`net461` (library) and `netcoreapp2.1` (tests),
+doesn't build on a modern SDK (NuGet vulnerability audit + `TreatWarningsAsErrors`),
+and retargeting to `net8.0`-only is itself a **breaking** change (drops .NET
+Framework / netstandard consumers). It therefore belongs in the major. The
+pipeline migration, the net8 retarget, the config cleanup, and the two feature
+branches all ship together as **`v3.0.0`**.
 
-1. Branch the build migration off `master` (`chore/build-migration`) —
-   build-system changes only, **no library/API change**.
-2. Merge to `master`.
-3. Tag **`v2.1.0`** — **pure pipeline smoke test**. Package contents are
-   functionally identical to `v2.0.0`; its only purpose is to prove the new
-   pipeline end-to-end (MinVer → pack → NuGet push → GitHub release with notes).
-4. Once green, merge `feat/nullable-reference-types`, then
-   `feat/member-and-type-ordering` (stacked on it) into `master`. Both carry
-   breaking/behavior changes.
-5. Update `CHANGELOG.md` for the breaking changes and tag **`v3.0.0`** using the
-   now-trusted pipeline.
+Assembly order — **pipeline-first**, on `chore/build-migration` (branched off
+`origin/master`):
+
+1. Implement the full pipeline migration + net8 retarget + config cleanup,
+   independent of feature behavior. The code is functionally `master`'s but
+   retargeted to `net8.0`.
+2. **Verify the pipeline is green before any feature merge or NuGet deploy:**
+   `build → test → pack` pass, CI workflow runs, release workflow wired. This
+   de-risks the build itself.
+3. Merge `feat/nullable-reference-types`, then `feat/member-and-type-ordering`
+   (stacked on it). Expect and resolve `.csproj` conflicts — both branches also
+   retarget to net8.
+4. Re-verify green; update `CHANGELOG.md` for the breaking changes.
+5. Merge to `master`. Optionally tag a **prerelease** (`v3.0.0-rc.1`) first to
+   exercise the publish last mile (OIDC → `nuget push` → GitHub release) without
+   burning the final version, then tag **`v3.0.0`** for the real release.
+
+**Publish last-mile caveat:** CI `build/test/pack` is fully exercised before
+release, but the actual `dotnet nuget push` + OIDC trusted-publishing handshake
+only run inside a tag-triggered release. With the minor dropped, the first real
+exercise of that path is the `v3.0.0` tag — unless the optional `v3.0.0-rc.1`
+prerelease in step 5 is used to rehearse it.
 
 ### Branch context (as of 2026-06-11)
 
