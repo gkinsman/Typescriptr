@@ -1,6 +1,6 @@
+export interface ReferenceType {
+}
 export interface TypeWithNullableReferenceType {
   referenceType: ReferenceType | null;
-}
-export interface ReferenceType {
 }
 

@@ -1,7 +1,7 @@
-export interface TypeTwoWithEnum {
+export interface TypeOneWithEnum {
   anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
-export interface TypeOneWithEnum {
+export interface TypeTwoWithEnum {
   anEnum: 'FirstEnum' | 'SecondEnum' | 'ThirdEnum';
 }
 

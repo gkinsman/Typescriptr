@@ -1,7 +1,7 @@
 export interface SimpleTypesOnly {
+  decimalType: number;
   intType: number;
   longType: number;
   stringType: string;
-  decimalType: number;
 }
 
