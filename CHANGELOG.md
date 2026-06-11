@@ -1,3 +1,18 @@
+# [3.0.0](https://github.com/gkinsman/Typescriptr/compare/v2.0.0...v3.0.0) (2026-06-11)
+
+
+### Features
+
+* Support nullable reference types: members render as `T | null` based on their nullable reference type annotations ([366739a](https://github.com/gkinsman/Typescriptr/commit/366739a))
+* Deterministic output: members are emitted in alphabetical order and types are grouped by namespace, so generated TypeScript is stable across runs and platforms ([92c5aca](https://github.com/gkinsman/Typescriptr/commit/92c5aca))
+
+
+### BREAKING CHANGES
+
+* The library now targets **net8.0** only; `netstandard2.0` and `net461` are no longer supported
+* Member and type output ordering changed (now alphabetical / namespace-grouped), so generated output differs from 2.x even when the input types are unchanged
+* Reference-type members annotated as nullable now render as `T | null`
+
 # [2.0.0](https://github.com/gkinsman/Typescriptr/compare/v1.5.0...v2.0.0) (2021-04-04)
 
 
